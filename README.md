@@ -1,1 +1,1 @@
-# BusinessServiceApiTemplate
+# BusinessServiceTemplate
