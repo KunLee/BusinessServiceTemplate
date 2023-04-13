@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\BusinessServiceTemplate.Api.props" />
+</Project>

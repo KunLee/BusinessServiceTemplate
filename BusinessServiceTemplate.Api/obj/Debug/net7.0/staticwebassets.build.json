@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aYJsN8n0r9aYFlPn0SfDQKEmBwr0OfTXqoxy6uNONXM=",
+  "Source": "BusinessServiceTemplate.Api",
+  "BasePath": "_content/BusinessServiceTemplate.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

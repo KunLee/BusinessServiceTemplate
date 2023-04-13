@@ -1,0 +1,12 @@
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\bin\Debug\net7.0\BusinessServiceTemplate.Core.deps.json
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\bin\Debug\net7.0\BusinessServiceTemplate.Core.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\bin\Debug\net7.0\BusinessServiceTemplate.Core.pdb
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.csproj.AssemblyReference.cache
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.AssemblyInfoInputs.cache
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.AssemblyInfo.cs
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.csproj.CoreCompileInputs.cache
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\refint\BusinessServiceTemplate.Core.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\BusinessServiceTemplate.Core.pdb
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.Core\obj\Debug\net7.0\ref\BusinessServiceTemplate.Core.dll

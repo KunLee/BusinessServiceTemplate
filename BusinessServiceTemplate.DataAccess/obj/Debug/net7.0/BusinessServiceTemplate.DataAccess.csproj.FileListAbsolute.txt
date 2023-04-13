@@ -1,0 +1,12 @@
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\bin\Debug\net7.0\BusinessServiceTemplate.DataAccess.deps.json
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\bin\Debug\net7.0\BusinessServiceTemplate.DataAccess.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\bin\Debug\net7.0\BusinessServiceTemplate.DataAccess.pdb
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.csproj.AssemblyReference.cache
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.AssemblyInfoInputs.cache
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.AssemblyInfo.cs
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.csproj.CoreCompileInputs.cache
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\refint\BusinessServiceTemplate.DataAccess.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.pdb
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\ref\BusinessServiceTemplate.DataAccess.dll
