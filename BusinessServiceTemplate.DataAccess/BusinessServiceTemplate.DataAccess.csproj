@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Contexts\" />
-    <Folder Include="Entities\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 
