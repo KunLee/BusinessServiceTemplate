@@ -6,6 +6,6 @@ namespace BusinessServiceTemplate.DataAccess.Entities
     {
         public string Name { set; get; }
         public string? Description { set; get; }
-        public List<SC_Panel> Panels { get; } = new();
+        public List<SC_Panel> Panels { set; get; } = new();
     }
 }

@@ -7,6 +7,6 @@ namespace BusinessServiceTemplate.DataAccess.Entities
         public string Name { set; get; }
         public string? Description { set; get; }
         public decimal? Price { set; get; }
-        public List<SC_Test> Tests { get; } = new();
+        public List<SC_Test> Tests { set; get; } = new();
     }
 }

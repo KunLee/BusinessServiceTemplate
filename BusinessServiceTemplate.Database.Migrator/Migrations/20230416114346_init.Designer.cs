@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BusinessServiceTemplate.Database.Migrator.Migrations
 {
     [DbContext(typeof(TestSelectionRepositoryContext))]
-    [Migration("20230414111226_int")]
-    partial class @int
+    [Migration("20230416114346_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,17 +122,21 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
 
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Panel_Test", b =>
                 {
-                    b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_Panel", null)
+                    b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_Panel", "Panels")
                         .WithMany()
                         .HasForeignKey("PanelsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_Test", null)
+                    b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_Test", "Tests")
                         .WithMany()
                         .HasForeignKey("TestsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Panels");
+
+                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }
