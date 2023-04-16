@@ -10,3 +10,6 @@ C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\ne
 C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\refint\BusinessServiceTemplate.DataAccess.dll
 C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.pdb
 C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\ref\BusinessServiceTemplate.DataAccess.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\bin\Debug\net7.0\BusinessServiceTemplate.Shared.DataAccess.dll
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\bin\Debug\net7.0\BusinessServiceTemplate.Shared.DataAccess.pdb
+C:\repos\BusinessServiceTemplate\BusinessServiceTemplate.DataAccess\obj\Debug\net7.0\BusinessServiceTemplate.DataAccess.csproj.CopyComplete
