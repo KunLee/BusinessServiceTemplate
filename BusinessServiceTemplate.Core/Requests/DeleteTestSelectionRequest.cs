@@ -4,12 +4,12 @@ using MediatR;
 namespace BusinessServiceTemplate.Core.Requests
 {
     /// <summary>
-    /// Deletes an existing Test configuration
+    /// Deletes an existing Test Selection configuration
     /// </summary>
-    public class DeleteTestRequest : IRequest<TestDto>
+    public class DeleteTestSelectionRequest : IRequest<TestSelectionDto>
     {
         /// <summary>
-        /// The ID of the test to delete
+        /// The ID of the test selection to delete
         /// </summary>
         public int Id { get; set; }
     }

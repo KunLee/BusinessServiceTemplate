@@ -1,10 +1,10 @@
 ﻿namespace BusinessServiceTemplate.Api.Models.ViewModels
 {
-    public class TestViewModel
+    public class TestSelectionViewModel
     {
         public int Id { set; get; }
         public string Name { set; get; }
-        public string Description { set; get; }
-        public List<int> Panels { set; get; } = new();
+        public string? Description { set; get; }
+        public int? SpecialityId { set; get; }
     }
 }

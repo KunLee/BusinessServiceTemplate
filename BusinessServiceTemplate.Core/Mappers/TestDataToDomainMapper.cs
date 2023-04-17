@@ -8,8 +8,7 @@ namespace BusinessServiceTemplate.Core.Mappers
     {
         public TestDataToDomainMapper()
         {
-            CreateMap<SC_Test, TestDto>()
-                .ForMember(dest => dest.Panels, opt => opt.MapFrom(source => source.Panels.Select(x => x)));
+            CreateMap<SC_Test, TestDto>();
         }
     }
 }

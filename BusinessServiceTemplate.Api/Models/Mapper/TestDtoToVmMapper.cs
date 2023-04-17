@@ -3,9 +3,9 @@ using BusinessServiceTemplate.Api.Models.ViewModels;
 using BusinessServiceTemplate.Core.Dtos;
 
 namespace BusinessServiceTemplate.Api.Models.Mapper
-{    public class TestDtoToTestViewModelMapper : Profile
+{    public class TestDtoToVmMapper : Profile
     {
-        public TestDtoToTestViewModelMapper()
+        public TestDtoToVmMapper()
         {
             CreateMap<TestDto, TestViewModel>()
                 .ForMember(dest => dest.Panels, opt => opt.MapFrom(so => so.Panels.Select(t => t.Id).ToList()));

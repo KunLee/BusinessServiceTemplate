@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessServiceTemplate.DataAccess\BusinessServiceTemplate.DataAccess.csproj" />
+    <ProjectReference Include="..\BusinessServiceTemplate.Shared\BusinessServiceTemplate.Shared.csproj" />
   </ItemGroup>
 
 </Project>

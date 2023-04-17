@@ -3,11 +3,10 @@ using MediatR;
 
 namespace BusinessServiceTemplate.Core.Requests
 {
-    public class CreatePanelRequest : IRequest<PanelDto>
+    public class CreateTestSelectionRequest : IRequest<TestSelectionDto>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
-        public decimal Price { get; set; }
-        public List<int>? TestIds { set; get; }
+        public int SpecialityId { set; get; }
     }
 }

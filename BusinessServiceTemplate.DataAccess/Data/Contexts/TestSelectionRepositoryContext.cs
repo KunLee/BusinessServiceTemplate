@@ -22,42 +22,10 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Seed mock data
             modelBuilder.Seed();
 
-            //modelBuilder.Entity<SC_Panel>()
-            //            .HasMany(e => e.Tests)
-            //            .WithMany(e => e.Panels)
-            //            .UsingEntity(
-            //                "SC_Panel_Test",
-            //                l => l.HasOne(typeof(SC_Panel)).WithMany().HasForeignKey("PanelId"),
-            //                r => r.HasOne(typeof(SC_Test)).WithMany().HasForeignKey("TestId"),
-            //                j =>
-            //                {
-            //                    j.HasKey("PanelId", "TestId");
-            //                    j.HasData(
-            //                        new { PanelId = 1, TestId = 1 },
-            //                        new { PanelId = 1, TestId = 2 },
-            //                        new { PanelId = 2, TestId = 1 },
-            //                        new { PanelId = 1, TestId = 2 });
-            //                });
-
-            //modelBuilder.Entity<SC_Panel>()
-            //           .HasMany(e => e.Tests)
-            //           .WithMany(e => e.Panels)
-            //           .UsingEntity(
-            //               "SC_Panel_Test",
-            //               l => l.HasOne(typeof(SC_Panel)).WithMany().HasForeignKey("PanelId"),
-            //               r => r.HasOne(typeof(SC_Test)).WithMany().HasForeignKey("TestId"),
-            //               j =>
-            //               {
-            //                   j.HasKey("PanelId", "TestId");
-            //                   j.HasData(
-            //                       new { PanelId = 1, TestId = 1 },
-            //                       new { PanelId = 1, TestId = 2 },
-            //                       new { PanelId = 2, TestId = 1 },
-            //                       new { PanelId = 1, TestId = 2 });
-            //               });
-
+            // Setup relationships between panels and tests
             modelBuilder.Entity<SC_Panel>()
                 .HasMany(x => x.Tests)
                 .WithMany(x => x.Panels)

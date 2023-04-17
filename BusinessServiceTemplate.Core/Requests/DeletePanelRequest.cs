@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using BusinessServiceTemplate.Core.Dtos;
+using MediatR;
 
 namespace BusinessServiceTemplate.Core.Requests
 {
     /// <summary>
     /// Deletes an existing Panel configuration
     /// </summary>
-    public class DeletePanelRequest : IRequest
+    public class DeletePanelRequest : IRequest<PanelDto>
     {
         /// <summary>
         /// The ID of the Panel to delete

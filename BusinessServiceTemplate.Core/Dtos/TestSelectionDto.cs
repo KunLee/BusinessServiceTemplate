@@ -6,6 +6,6 @@
         public int Id { get; set; }
         public string Name { set; get; }
         public string? Description { set; get; }
-        public int? SpecialityId { set; get; }
+        public int SpecialityId { set; get; }
     }
 }
