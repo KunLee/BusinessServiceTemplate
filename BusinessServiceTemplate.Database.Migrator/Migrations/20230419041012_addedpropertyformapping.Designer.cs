@@ -3,6 +3,7 @@ using System;
 using BusinessServiceTemplate.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BusinessServiceTemplate.Database.Migrator.Migrations
 {
     [DbContext(typeof(TestSelectionRepositoryContext))]
-    partial class TestSelectionRepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230419041012_addedpropertyformapping")]
+    partial class addedpropertyformapping
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
 
                     b.Property<int>("TestSelectionId")
                         .HasColumnType("integer");
-
-                    b.Property<bool?>("Visibility")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -105,7 +105,7 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                     b.Property<int>("TestId")
                         .HasColumnType("integer");
 
-                    b.Property<bool?>("Visibility")
+                    b.Property<bool>("Visibility")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");

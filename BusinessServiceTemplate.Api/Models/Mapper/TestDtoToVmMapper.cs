@@ -3,7 +3,8 @@ using BusinessServiceTemplate.Api.Models.ViewModels;
 using BusinessServiceTemplate.Core.Dtos;
 
 namespace BusinessServiceTemplate.Api.Models.Mapper
-{    public class TestDtoToVmMapper : Profile
+{    
+    public class TestDtoToVmMapper : Profile
     {
         public TestDtoToVmMapper()
         {

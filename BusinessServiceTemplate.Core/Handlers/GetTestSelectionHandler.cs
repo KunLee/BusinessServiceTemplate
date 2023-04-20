@@ -7,24 +7,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
-    public class GetAllTestsHandler : IRequestHandler<GetAllTestsRequest, IList<TestDto>>
+    public class GetTestSelectionHandler : IRequestHandler<GetTestSelectionRequest, TestSelectionDto>
     {
         private readonly ITestSelectionRepositoryManager _testSelectionRepositoryManager;
         private readonly IMapper _mapper;
 
-        public GetAllTestsHandler(ITestSelectionRepositoryManager testSelectionRepositoryManager,
+        public GetTestSelectionHandler(ITestSelectionRepositoryManager testSelectionRepositoryManager,
             IMapper mapper)
         {
             _testSelectionRepositoryManager = testSelectionRepositoryManager;
             _mapper = mapper;
         }
-        public async Task<IList<TestDto>> Handle(GetAllTestsRequest request, CancellationToken cancellationToken)
+        public async Task<TestSelectionDto> Handle(GetTestSelectionRequest request, CancellationToken cancellationToken)
         {
-            var panelList = await _testSelectionRepositoryManager.ScTestRepository.FindAll();
+            var testSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.Find(request.Id);
+            var panels = testSelection.Panels;
 
-            var fullList = panelList.Include(x => x.Panels);
-
-            return fullList.Select(_mapper.Map<TestDto>).ToList();
+            return _mapper.Map<TestSelectionDto>(testSelection);
         }
     }
 }

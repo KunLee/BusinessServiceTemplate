@@ -8,7 +8,14 @@ namespace BusinessServiceTemplate.DataAccess.Entities
         [Required(ErrorMessage = "Name is required.")]
         public string Name { set; get; }
         public string? Description { set; get; }
+        public bool? DescriptionVisibility { set; get; }
         public decimal? Price { set; get; }
-        public List<SC_Test> Tests { set; get; } = new();
+        public bool? PriceVisibility { set; get; }
+        public int TestSelectionId { get; set; } // Required foreign key property for reference navigation
+
+        [Required(ErrorMessage = "TestSelection is required.")]
+        public SC_TestSelection TestSelection { get; set; } = null!; // Required reference navigation to principal
+        public virtual List<SC_Test> Tests { set; get; } = new();
+        public bool? Visibility { set; get; }
     }
 }

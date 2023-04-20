@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BusinessServiceTemplate.Database.Migrator.Migrations
 {
     [DbContext(typeof(TestSelectionRepositoryContext))]
-    [Migration("20230416121633_seed")]
-    partial class seed
+    [Migration("20230418061853_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool?>("DescriptionVisibility")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -43,7 +46,15 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<bool?>("PriceVisibility")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("TestSelectionId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TestSelectionId");
 
                     b.ToTable("SC_Panels");
 
@@ -52,15 +63,31 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                         {
                             Id = 1,
                             Description = "Panel1",
+                            DescriptionVisibility = true,
                             Name = "Panel1",
-                            Price = 10.01m
+                            Price = 10.01m,
+                            PriceVisibility = true,
+                            TestSelectionId = 2
                         },
                         new
                         {
                             Id = 2,
                             Description = "Panel2",
+                            DescriptionVisibility = true,
                             Name = "Panel2",
-                            Price = 20.01m
+                            Price = 20.01m,
+                            PriceVisibility = true,
+                            TestSelectionId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Panel3",
+                            DescriptionVisibility = true,
+                            Name = "Panel3",
+                            Price = 30.01m,
+                            PriceVisibility = true,
+                            TestSelectionId = 1
                         });
                 });
 
@@ -124,6 +151,9 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool?>("DescriptionVisibility")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -137,12 +167,14 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                         {
                             Id = 1,
                             Description = "test1",
+                            DescriptionVisibility = true,
                             Name = "test1"
                         },
                         new
                         {
                             Id = 2,
                             Description = "test2",
+                            DescriptionVisibility = true,
                             Name = "test2"
                         });
                 });
@@ -158,16 +190,48 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool?>("DescriptionVisibility")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("SpecialityId")
+                    b.Property<int>("SpecialityId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("SC_TestSelections");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Test Selection 1",
+                            DescriptionVisibility = true,
+                            Name = "Test Selection 1",
+                            SpecialityId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Test Selection 2",
+                            DescriptionVisibility = false,
+                            Name = "Test Selection 2",
+                            SpecialityId = 2
+                        });
+                });
+
+            modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Panel", b =>
+                {
+                    b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_TestSelection", "TestSelection")
+                        .WithMany("Panels")
+                        .HasForeignKey("TestSelectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestSelection");
                 });
 
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Panel_Test", b =>
@@ -187,6 +251,11 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                     b.Navigation("Panels");
 
                     b.Navigation("Tests");
+                });
+
+            modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_TestSelection", b =>
+                {
+                    b.Navigation("Panels");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,13 +12,15 @@ namespace BusinessServiceTemplate.DataAccess.Extensions
                 {
                     Id = 1,
                     Name = "test1",
-                    Description = "test1"
+                    Description = "test1",
+                    DescriptionVisibility = true,
                 },
                 new SC_Test
                 {
                     Id = 2,
                     Name = "test2",
-                    Description = "test2"
+                    Description = "test2",
+                    DescriptionVisibility = true,
                 }
            );
 
@@ -26,16 +28,51 @@ namespace BusinessServiceTemplate.DataAccess.Extensions
                 .HasData(new SC_Panel
                 {
                     Id = 1,
-                    Name= "Panel1",
+                    Name = "Panel1",
                     Description= "Panel1",
-                    Price = new decimal(10.01)
+                    DescriptionVisibility = true,
+                    Price = new decimal(10.01),
+                    PriceVisibility= true,
+                    TestSelectionId = 2
                 },
                 new SC_Panel
                 {
-                    Id= 2,
+                    Id = 2,
                     Name = "Panel2",
                     Description = "Panel2",
-                    Price = new decimal(20.01)
+                    DescriptionVisibility = true,
+                    Price = new decimal(20.01),
+                    PriceVisibility = true,
+                    TestSelectionId= 1
+                },
+                new SC_Panel
+                {
+                    Id = 3,
+                    Name = "Panel3",
+                    Description = "Panel3",
+                    DescriptionVisibility = true,
+                    Price = new decimal(30.01),
+                    PriceVisibility = true,
+                    TestSelectionId = 1
+                }
+           );
+
+            modelBuilder.Entity<SC_TestSelection>()
+                .HasData(new SC_TestSelection
+                {
+                    Id = 1,
+                    Name = "Test Selection 1",
+                    Description = "Test Selection 1",
+                    DescriptionVisibility = true,
+                    SpecialityId = 1
+                },
+                new SC_TestSelection
+                {
+                    Id = 2,
+                    Name = "Test Selection 2",
+                    Description = "Test Selection 2",
+                    DescriptionVisibility = false,
+                    SpecialityId = 2
                 }
            );
         }

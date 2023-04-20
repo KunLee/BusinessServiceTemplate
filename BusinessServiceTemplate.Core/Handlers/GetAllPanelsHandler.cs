@@ -22,9 +22,9 @@ namespace BusinessServiceTemplate.Core.Handlers
         {
             var panelList = await _testSelectionRepositoryManager.ScPanelRepository.FindAll();
 
-            var completeList = panelList.Include(x => x.Tests);
+            var fullList = panelList.Include(x => x.Tests);
 
-            return completeList.Select(_mapper.Map<PanelDto>).ToList();
+            return fullList.Select(_mapper.Map<PanelDto>).ToList();
         }
     }
 }

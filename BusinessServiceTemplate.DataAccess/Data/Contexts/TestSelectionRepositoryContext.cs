@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,22 +23,29 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Seed mock data
-            modelBuilder.Seed();
-
             // Setup relationships between panels and tests
+            modelBuilder.Entity<SC_Panel_Test>().Property(sc => sc.Visibility);
+
             modelBuilder.Entity<SC_Panel>()
                 .HasMany(x => x.Tests)
                 .WithMany(x => x.Panels)
                 .UsingEntity<SC_Panel_Test>(
                     r => r.HasOne(x => x.Tests).WithMany().HasForeignKey(x => x.TestId),
-                    l => l.HasOne(x => x.Panels).WithMany().HasForeignKey(x => x.PanelId))
-                .HasData(new[] {
-                        new { Id = 1, PanelId = 1, TestId = 1 },
-                        new { Id = 2, PanelId = 1, TestId = 2 },
-                        new { Id = 3, PanelId = 2, TestId = 1 },
-                        new { Id = 4, PanelId = 1, TestId = 2 }
-                    });
+                    l => l.HasOne(x => x.Panels).WithMany().HasForeignKey(x => x.PanelId)).HasData(new[] {
+                        new { Id = 1, PanelId = 1, TestId = 1, Visibility = true },
+                        new { Id = 2, PanelId = 1, TestId = 2, Visibility = false },
+                        new { Id = 3, PanelId = 2, TestId = 1, Visibility = true },
+                        new { Id = 4, PanelId = 1, TestId = 2, Visibility = false }
+                });
+
+            modelBuilder.Entity<SC_TestSelection>()
+                .HasMany(e => e.Panels)
+                .WithOne(e => e.TestSelection)
+                .HasForeignKey(e => e.TestSelectionId)
+                .IsRequired();
+
+            // Seed mock data
+            modelBuilder.Seed();
         }
     }
 }

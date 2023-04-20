@@ -3,6 +3,7 @@ using BusinessServiceTemplate.Core.Requests;
 using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -20,8 +21,8 @@ namespace BusinessServiceTemplate.Core.Handlers
         public async Task<IList<TestSelectionDto>> Handle(GetAllTestSelectionsRequest request, CancellationToken cancellationToken)
         {
             var testSelectionList = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindAll();
-
-            return testSelectionList.Select(_mapper.Map<TestSelectionDto>).ToList();
+            var fullSelectionList = testSelectionList.Include(x => x.Panels);
+            return fullSelectionList.Select(_mapper.Map<TestSelectionDto>).ToList();
         }
     }
 }

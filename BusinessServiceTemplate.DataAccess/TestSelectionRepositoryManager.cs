@@ -10,6 +10,7 @@ namespace BusinessServiceTemplate.DataAccess
         private IScPanelRepository _scPanelRepository;
         private IScTestRepository _scTestRepository;
         private IScTestSelectionRepository _scTestSelectionRepository;
+        private bool disposed = false;
 
         public TestSelectionRepositoryManager(TestSelectionRepositoryContext testSelectionRepositoryContext)
         {
@@ -44,5 +45,23 @@ namespace BusinessServiceTemplate.DataAccess
         }
 
         public async Task Save() => await _testSelectionRepositoryContext.SaveChangesAsync();
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _testSelectionRepositoryContext.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

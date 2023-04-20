@@ -7,7 +7,11 @@ namespace BusinessServiceTemplate.Core.Requests
     {
         public string Name { get; set; }
         public string? Description { get; set; }
-        public decimal Price { get; set; }
+        public bool? DescriptionVisibility { set; get; }
+        public decimal? Price { get; set; }
+        public bool? PriceVisibility { set; get; }
+        public int TestSelectionId { get; set; }
         public List<int>? TestIds { set; get; }
+        public bool? Visibility { set; get; }
     }
 }

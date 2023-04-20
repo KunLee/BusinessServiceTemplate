@@ -39,6 +39,7 @@ namespace BusinessServiceTemplate.Core.Handlers
                 record.Description = request.Description;
                 record.Price = request.Price;
                 record.Tests= sC_Tests;
+                record.Visibility= request.Visibility;
 
                 updatedPanel = await _testSelectionRepositoryManager.ScPanelRepository.Update(record);
 

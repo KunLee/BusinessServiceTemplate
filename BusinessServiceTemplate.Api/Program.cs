@@ -9,6 +9,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add Cors enabled
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("GLOBAL_CORS_POLICY",
+        builder => builder.SetIsOriginAllowed(origin => true)
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 // Base Service Configuration
 builder.Services.ConfigureRepositoryManager(config);
 builder.Services.ConfigureAutoMapper();
@@ -22,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("GLOBAL_CORS_POLICY");
 
 app.UseHttpsRedirection();
 

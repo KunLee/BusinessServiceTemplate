@@ -2,7 +2,7 @@
 
 namespace BusinessServiceTemplate.DataAccess
 {
-    public interface ITestSelectionRepositoryManager
+    public interface ITestSelectionRepositoryManager : IDisposable
     {
         IScPanelRepository ScPanelRepository { get; }
         IScTestRepository ScTestRepository { get; }

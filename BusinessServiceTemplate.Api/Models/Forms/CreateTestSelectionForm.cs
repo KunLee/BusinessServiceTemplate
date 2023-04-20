@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace BusinessServiceTemplate.Api.Models.Forms
 {
@@ -8,6 +7,7 @@ namespace BusinessServiceTemplate.Api.Models.Forms
         [Required]
         public string Name { set; get; }
         public string? Description { set; get; }
+        public bool? DescriptionVisibility { set; get; }
 
         [Required]
         public int SpecialityId { set; get; }

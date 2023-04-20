@@ -8,6 +8,7 @@ namespace BusinessServiceTemplate.DataAccess.Entities
         [Required(ErrorMessage = "Name is required.")]
         public string Name { set; get; }
         public string? Description { set; get; }
-        public List<SC_Panel> Panels { set; get; } = new();
+        public bool? DescriptionVisibility { set; get; }
+        public virtual List<SC_Panel> Panels { set; get; } = new();
     }
 }

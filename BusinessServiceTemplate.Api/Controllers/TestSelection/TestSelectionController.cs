@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BusinessServiceTemplate.Api.Models.Forms;
 using BusinessServiceTemplate.Api.Models.ViewModels;
-using BusinessServiceTemplate.Core.Dtos;
 using BusinessServiceTemplate.Core.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +49,11 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 Name = form.Name,
                 Description = form.Description,
                 Price = form.Price,
-                TestIds= form.TestIds
+                PriceVisibility = form.PriceVisibility,
+                DescriptionVisibility = form.DescriptionVisibility,
+                TestSelectionId = form.TestSelectionId,
+                TestIds= form.TestIds,
+                Visibility = form.Visibility
             });
 
             return _mapper.Map<PanelViewModel>(panelDto);
@@ -72,8 +75,12 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 Id = id,
                 Name = form.Name,
                 Description = form.Description,
+                DescriptionVisibility = form.DescriptionVisibility,
+                PriceVisibility = form.PriceVisibility,
+                TestSelectionId = form.TestSelectionId,
                 Price = form.Price,
-                TestIds = form.TestIds
+                TestIds = form.TestIds,
+                Visibility = form.Visibility
             });
 
             return _mapper.Map<PanelViewModel>(panelDto);
@@ -102,9 +109,10 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("tests")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public Task<IList<TestDto>> GetAllTests()
+        public async Task<IList<TestViewModel>> GetAllTests()
         {
-            return _mediator.Send(new GetAllTestsRequest());
+            var list = await _mediator.Send(new GetAllTestsRequest());
+            return list.Select(_mapper.Map<TestViewModel>).ToList();
         }
 
         /// <summary>
@@ -121,6 +129,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
             {
                 Name = form.Name,
                 Description = form.Description,
+                DescriptionVisibility = form.DescriptionVisibility,
                 PanelIds = form.PanelIds
             });
 
@@ -143,6 +152,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 Id = id,
                 Name = form.Name,
                 Description = form.Description,
+                DescriptionVisibility = form.DescriptionVisibility,
                 PanelIds = form.PanelIds
             });
 
@@ -171,9 +181,23 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("testselections")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public Task<IList<TestSelectionDto>> GetAllTestSelections()
+        public async Task<IList<TestSelectionViewModel>> GetAllTestSelections()
         {
-            return _mediator.Send(new GetAllTestSelectionsRequest());
+            var list = await _mediator.Send(new GetAllTestSelectionsRequest());
+            return list.Select(_mapper.Map<TestSelectionViewModel>).ToList();
+        }
+
+        /// <summary>
+        /// Get A specific TestSelections
+        /// </summary>
+        /// <returns>The list of the test selections</returns>
+        [HttpGet("testselections/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public async Task<TestSelectionViewModel> GetTestSelection(int id)
+        {
+            var testSelection = await _mediator.Send(new GetTestSelectionRequest());
+            return _mapper.Map<TestSelectionViewModel>(testSelection);
         }
 
         /// <summary>
@@ -190,7 +214,8 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
             {
                 Name = form.Name,
                 Description = form.Description,
-                SpecialityId= form.SpecialityId
+                SpecialityId= form.SpecialityId,
+                DescriptionVisibility = form.DescriptionVisibility
             });
 
             return _mapper.Map<TestSelectionViewModel>(testSelectionDto);
@@ -212,6 +237,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 Id = id,
                 Name = form.Name,
                 Description = form.Description,
+                DescriptionVisibility = form.DescriptionVisibility,
                 SpecialityId= form.SpecialityId
             });
 
