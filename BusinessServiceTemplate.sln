@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Shared", "BusinessServiceTemplate.Shared\BusinessServiceTemplate.Shared.csproj", "{F157067C-7F5F-4758-A832-CCA67909F3FF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Client", "..\LoggingService\LogginServiceAPI\LoggingService.Client\LoggingService.Client.csproj", "{3C4FA57F-FDA3-4351-9586-B53923F9BBF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{F157067C-7F5F-4758-A832-CCA67909F3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F157067C-7F5F-4758-A832-CCA67909F3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F157067C-7F5F-4758-A832-CCA67909F3FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C4FA57F-FDA3-4351-9586-B53923F9BBF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C4FA57F-FDA3-4351-9586-B53923F9BBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C4FA57F-FDA3-4351-9586-B53923F9BBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C4FA57F-FDA3-4351-9586-B53923F9BBF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,6 +22,20 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         }
 
         /// <summary>
+        /// Get a specific Test Panel by Id
+        /// </summary>
+        /// <returns>The panel</returns>
+        [HttpGet("panels/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public async Task<PanelViewModel> GetPanel(int id)
+        {
+            var panel = await _mediator.Send(new GetPanelRequest(id));
+
+            return _mapper.Map<PanelViewModel>(panel);
+        }
+
+        /// <summary>
         /// Get All of the Test Panels
         /// </summary>
         /// <returns>The list of the panels</returns>
@@ -116,6 +130,20 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         }
 
         /// <summary>
+        /// Get a specific Test by Id
+        /// </summary>
+        /// <returns>A specific test returned</returns>
+        [HttpGet("tests/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public async Task<TestViewModel> GetTest(int id)
+        {
+            var test = await _mediator.Send(new GetTestRequest(id));
+
+            return _mapper.Map<TestViewModel>(test);
+        }
+
+        /// <summary>
         /// Add a new Test with full details
         /// </summary>
         /// <param name="form">The data describing the Test details</param>
@@ -196,8 +224,22 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [ProducesResponseType(200)]
         public async Task<TestSelectionViewModel> GetTestSelection(int id)
         {
-            var testSelection = await _mediator.Send(new GetTestSelectionRequest());
+            var testSelection = await _mediator.Send(new GetTestSelectionRequest(id));
             return _mapper.Map<TestSelectionViewModel>(testSelection);
+        }
+
+        /// <summary>
+        /// Get TestSelections via SpecialityId
+        /// </summary>
+        /// <returns>The list of the test selections</returns>
+        [HttpGet("testselections/speciality/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public async Task<IList<TestSelectionViewModel>> GetTestSelectionsBySpecialityId(int id)
+        {
+            var testSelections = await _mediator.Send(new GetTestSelectionsBySpecialityRequest(id));
+
+            return testSelections.Select(_mapper.Map<TestSelectionViewModel>).ToList();
         }
 
         /// <summary>
@@ -257,6 +299,41 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
             {
                 Id = id
             });
+        }
+
+        /// <summary>
+        /// Update the visibility of a mapping between a specific test to panel
+        /// </summary>
+        /// <param name="updatePanelTestForm"></param>
+        /// <returns></returns>
+        [HttpPut("paneltest")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public async Task UpdatePanelTestVisibility([FromBody] UpdatePanelTestForm updatePanelTestForm)
+        {
+            await _mediator.Send(new UpdatePanelTestRequest()
+            {
+                PanelId = updatePanelTestForm.PanelId,
+                TestId = updatePanelTestForm.TestId,
+                Visibility= updatePanelTestForm.Visibility
+            });
+        }
+
+        /// <summary>
+        /// Get a specific Panel Test by PanelId and TestId
+        /// </summary>
+        /// <returns>The panel test mapping record</returns>
+        [HttpGet("paneltest")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public async Task<PanelTestViewModel> GetPanelTestByIds([FromQuery] int panelId, [FromQuery] int testId)
+        {
+            var panelTest = await _mediator.Send(new GetPanelTestByIdsRequest { 
+                PanelId = panelId,
+                TestId = testId
+            });
+
+            return _mapper.Map<PanelTestViewModel>(panelTest);
         }
     }
 }

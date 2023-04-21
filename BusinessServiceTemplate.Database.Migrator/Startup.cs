@@ -1,4 +1,4 @@
-﻿using BusinessServiceTemplate.Database.Migrator.Configs;
+﻿using BusinessServiceTemplate.Database.Migrator.Settings;
 using Microsoft.Extensions.Configuration;
 
 namespace BusinessServiceTemplate.Database.Migrator

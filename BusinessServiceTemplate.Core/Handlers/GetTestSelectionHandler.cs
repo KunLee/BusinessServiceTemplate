@@ -3,7 +3,6 @@ using BusinessServiceTemplate.Core.Requests;
 using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {

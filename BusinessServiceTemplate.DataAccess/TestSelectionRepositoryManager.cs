@@ -9,6 +9,7 @@ namespace BusinessServiceTemplate.DataAccess
         private TestSelectionRepositoryContext _testSelectionRepositoryContext;
         private IScPanelRepository _scPanelRepository;
         private IScTestRepository _scTestRepository;
+        private IScPanelTestRepository _scPanelTestRepository;
         private IScTestSelectionRepository _scTestSelectionRepository;
         private bool disposed = false;
 
@@ -32,6 +33,15 @@ namespace BusinessServiceTemplate.DataAccess
             {
                 _scTestRepository ??= new ScTestRepository(_testSelectionRepositoryContext);
                 return _scTestRepository;
+            }
+        }
+
+        public IScPanelTestRepository ScPanelTestRepository
+        {
+            get
+            {
+                _scPanelTestRepository ??= new ScPanelTestRepository(_testSelectionRepositoryContext);
+                return _scPanelTestRepository;
             }
         }
 

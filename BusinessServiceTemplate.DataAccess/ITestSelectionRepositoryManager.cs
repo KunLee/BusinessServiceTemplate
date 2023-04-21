@@ -6,6 +6,7 @@ namespace BusinessServiceTemplate.DataAccess
     {
         IScPanelRepository ScPanelRepository { get; }
         IScTestRepository ScTestRepository { get; }
+        IScPanelTestRepository ScPanelTestRepository { get; }
         IScTestSelectionRepository ScTestSelectionRepository { get; }
         Task Save();
     }

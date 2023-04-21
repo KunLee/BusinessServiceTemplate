@@ -1,4 +1,4 @@
-﻿using BusinessServiceTemplate.Database.Migrator.Configs;
+﻿using BusinessServiceTemplate.Database.Migrator.Settings;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

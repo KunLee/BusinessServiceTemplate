@@ -1,4 +1,4 @@
-﻿namespace BusinessServiceTemplate.Database.Migrator.Configs
+﻿namespace BusinessServiceTemplate.Database.Migrator.Settings
 {
     internal class DbSettings
     {

@@ -1,6 +1,36 @@
+using BusinessServiceTemplate.Api.Enrichers;
 using BusinessServiceTemplate.Api.Extensions;
+using BusinessServiceTemplate.Api.Middlewares;
+using BusinessServiceTemplate.Api.Settings;
+using BusinessServiceTemplate.Shared.Common;
+using FluentAssertions.Common;
+using LoggingService.Client.Extensions;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
+    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Serilog Initialization
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext()
+    .Enrich.With<EventTypeEnricher>()
+    .Enrich.With<HttpRequestEnricher>()
+    .Enrich.WithMachineName()
+    .Enrich.WithEnvironmentName()
+    .WriteTo.Console());
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(Log.Logger);
+
 var config = builder.Configuration;
 // Add services to the container.
 
@@ -18,11 +48,15 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
-
+// Base Settings Loading
+builder.Services.Configure<LoggingServiceSettings>(config.GetSection("LoggingService"));
 // Base Service Configuration
 builder.Services.ConfigureRepositoryManager(config);
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureMediatR();
+
+// Setup Remote Logging Service
+builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
 
 var app = builder.Build();
 
@@ -35,6 +69,10 @@ if (app.Environment.IsDevelopment())
 app.UseCors("GLOBAL_CORS_POLICY");
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware(typeof(HttpContextMiddleware));
+
+app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
 app.UseAuthorization();
 
