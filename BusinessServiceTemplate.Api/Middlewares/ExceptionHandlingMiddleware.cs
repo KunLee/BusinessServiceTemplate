@@ -45,16 +45,23 @@ namespace BusinessServiceTemplate.Api.Middlewares
         }
         private async Task HandleException(HttpContext context, Exception ex)
         {
-            if (_loggingSetting.RemoteLogging)
+            Guid errorId = Guid.NewGuid();
+            
+            var errorMessageObject = new
             {
-                await SendRemoteLogging(ex);
-            }
-
-            _logger.LogError(message: ex.ToString());
-
-            var errorMessageObject = new { ex.Message, Code = ConstantStrings.SYSTEM_INTERNAL_ERROR };
+                //ex.Message, // Hide the stacktrace details to client
+                Code = ConstantStrings.SYSTEM_INTERNAL_ERROR,
+                ErrorId = errorId
+            };
 
             var errorMessage = JsonConvert.SerializeObject(errorMessageObject);
+
+            if (_loggingSetting.RemoteLogging)
+            {
+                await SendRemoteLogging(ex, errorMessage, context.Request);
+            }
+
+            _logger.LogError(exception: ex, message: "{@DataObject}", errorMessageObject);
 
             context.Response.ContentType = "application/json";
 
@@ -63,7 +70,7 @@ namespace BusinessServiceTemplate.Api.Middlewares
             await context.Response.WriteAsync(errorMessage);
         }
 
-        private async Task SendRemoteLogging(Exception ex)
+        private async Task SendRemoteLogging(Exception ex, string msg, HttpRequest request)
         {   
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -78,9 +85,9 @@ namespace BusinessServiceTemplate.Api.Middlewares
                         InstanceId = _loggingSetting.InstanceId,
                         LogSource =  typeof(ExceptionHandlingMiddleware).ToString(),
                         AppName =  _loggingSetting.AppName,
-                        Message = ex.Message,
-                        ContextData = null,
-                        StackTrace = ex.StackTrace?.Substring(0, 4990)
+                        Message = msg,
+                        ContextData = JsonConvert.SerializeObject(request),
+                        StackTrace = ex.StackTrace?.Substring(0, 4999)
                     },
                 }
             };

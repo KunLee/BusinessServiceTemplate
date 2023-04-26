@@ -3,7 +3,6 @@ using BusinessServiceTemplate.Core.Requests;
 using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
-using BusinessServiceTemplate.DataAccess.Entities;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -20,17 +19,15 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<PanelDto> Handle(DeletePanelRequest request, CancellationToken cancellationToken)
         {
-            var panelDeleted = default(SC_Panel);
-            var panels = await _testSelectionRepositoryManager.ScPanelRepository.FindByCondition(x => x.Id == request.Id);
+            var panel = await _testSelectionRepositoryManager.ScPanelRepository.FindById(request.Id);
 
-            if (panels.Any()) 
+            if (panel != null) 
             {
-                var panelToDelete = panels.First();
-                panelDeleted = await _testSelectionRepositoryManager.ScPanelRepository.Delete(panelToDelete);
+                await _testSelectionRepositoryManager.ScPanelRepository.Delete(panel);
                 await _testSelectionRepositoryManager.Save();
             }
             
-            return _mapper.Map<PanelDto>(panelDeleted);
+            return _mapper.Map<PanelDto>(panel);
         }
     }
 }

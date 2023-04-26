@@ -1,20 +1,22 @@
 ﻿using BusinessServiceTemplate.Core.Requests;
 using BusinessServiceTemplate.DataAccess;
+using BusinessServiceTemplate.Core.Dtos;
 using MediatR;
-using BusinessServiceTemplate.Shared.Exceptions;
-using BusinessServiceTemplate.Shared.Common;
+using AutoMapper;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
-    public class UpdatePanelTestHandler : IRequestHandler<UpdatePanelTestRequest>
+    public class UpdatePanelTestHandler : IRequestHandler<UpdatePanelTestRequest, PanelTestDto>
     {
         private readonly ITestSelectionRepositoryManager _testSelectionRepositoryManager;
+        private readonly IMapper _mapper;
 
-        public UpdatePanelTestHandler(ITestSelectionRepositoryManager testSelectionRepositoryManager)
+        public UpdatePanelTestHandler(ITestSelectionRepositoryManager testSelectionRepositoryManager, IMapper mapper)
         {
             _testSelectionRepositoryManager = testSelectionRepositoryManager;
+            _mapper = mapper;
         }
-        public async Task Handle(UpdatePanelTestRequest request, CancellationToken cancellationToken)
+        public async Task<PanelTestDto> Handle(UpdatePanelTestRequest request, CancellationToken cancellationToken)
         {
             var recordToUpdate = await _testSelectionRepositoryManager.ScPanelTestRepository
                 .FindByIds(request.PanelId, request.TestId);
@@ -27,10 +29,7 @@ namespace BusinessServiceTemplate.Core.Handlers
 
                 await _testSelectionRepositoryManager.Save();
             }
-            else
-            {
-                throw new ValidationException(ConstantStrings.NO_REQUESTED_RECORD);
-            }
+            return _mapper.Map<PanelTestDto>(recordToUpdate);
         }
     }
 }

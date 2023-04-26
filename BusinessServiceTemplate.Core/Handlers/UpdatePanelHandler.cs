@@ -22,9 +22,9 @@ namespace BusinessServiceTemplate.Core.Handlers
         {   
             SC_Panel? updatedPanel = null;
 
-            var recordToUpdate = await _testSelectionRepositoryManager.ScPanelRepository.FindByCondition(x => x.Id == request.Id);
+            var recordToUpdate = await _testSelectionRepositoryManager.ScPanelRepository.FindById(request.Id);
             
-            if (recordToUpdate.Any()) 
+            if (recordToUpdate != null) 
             {
                 List<SC_Test> sC_Tests = new();
 
@@ -34,7 +34,7 @@ namespace BusinessServiceTemplate.Core.Handlers
                     sC_Tests = tests.ToList();
                 }
 
-                var record = recordToUpdate.FirstOrDefault();
+                var record = recordToUpdate;
                 record.Name = request.Name;
                 record.Description = request.Description;
                 record.Price = request.Price;
