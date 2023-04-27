@@ -20,17 +20,15 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<TestSelectionDto> Handle(DeleteTestSelectionRequest request, CancellationToken cancellationToken)
         {
-            var testSelectionDeleted = default(SC_TestSelection);
-            var testSelections = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindByCondition(x => x.Id == request.Id);
+            var testSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindById(request.Id);
 
-            if (testSelections.Any()) 
+            if (testSelection != null)
             {
-                var testSelectionToDelete = testSelections.First();
-                testSelectionDeleted = await _testSelectionRepositoryManager.ScTestSelectionRepository.Delete(testSelectionToDelete);
+                await _testSelectionRepositoryManager.ScTestSelectionRepository.Delete(testSelection);
                 await _testSelectionRepositoryManager.Save();
             }
-            
-            return _mapper.Map<TestSelectionDto>(testSelectionDeleted);
+
+            return _mapper.Map<TestSelectionDto>(testSelection);
         }
     }
 }

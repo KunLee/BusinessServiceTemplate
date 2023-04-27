@@ -20,22 +20,19 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<TestSelectionDto> Handle(UpdateTestSelectionRequest request, CancellationToken cancellationToken)
         {
-            SC_TestSelection? updatedTestSelection = null;
+            var recordToUpdate = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindById(request.Id);
 
-            var recordToUpdate = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindByCondition(x => x.Id == request.Id);
-            
-            if (recordToUpdate.Any()) 
+            if (recordToUpdate != null)
             {
-                var record = recordToUpdate.FirstOrDefault();
-                record.Name = request.Name;
-                record.Description = request.Description;
-                record.SpecialityId = request.SpecialityId;
+                recordToUpdate.Name = request.Name;
+                recordToUpdate.Description = request.Description;
+                recordToUpdate.DescriptionVisibility = request.DescriptionVisibility;
+                recordToUpdate.SpecialityId = request.SpecialityId;
 
-                updatedTestSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.Update(record);
+                await _testSelectionRepositoryManager.ScTestSelectionRepository.Update(recordToUpdate);
                 await _testSelectionRepositoryManager.Save();
             }
-
-            return _mapper.Map<TestSelectionDto>(updatedTestSelection);
+            return _mapper.Map<TestSelectionDto>(recordToUpdate);
         }
     }
 }

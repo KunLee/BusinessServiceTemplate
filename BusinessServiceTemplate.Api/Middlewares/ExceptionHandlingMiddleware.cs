@@ -1,4 +1,5 @@
-﻿using BusinessServiceTemplate.Api.Settings;
+﻿using BusinessServiceTemplate.Api.Common;
+using BusinessServiceTemplate.Api.Settings;
 using BusinessServiceTemplate.Shared.Common;
 using LoggingService.Client.LoggingService;
 using LoggingService.Client.LoggingService.Models;
@@ -46,11 +47,19 @@ namespace BusinessServiceTemplate.Api.Middlewares
         private async Task HandleException(HttpContext context, Exception ex)
         {
             Guid errorId = Guid.NewGuid();
-            
+
+            string codeMsg = ConstantStrings.INTERNAL_SYSTEM_ERROR_MESSAGE;
+
+            Type exType = ex.GetType();
+
+            if (!exType.Name.Equals(nameof(Exception)))
+            {
+                codeMsg = ex.Message;
+            }
+
             var errorMessageObject = new
             {
-                //ex.Message, // Hide the stacktrace details to client
-                Code = ConstantStrings.SYSTEM_INTERNAL_ERROR,
+                Code = codeMsg,
                 ErrorId = errorId
             };
 
@@ -58,7 +67,7 @@ namespace BusinessServiceTemplate.Api.Middlewares
 
             if (_loggingSetting.RemoteLogging)
             {
-                await SendRemoteLogging(ex, errorMessage, context.Request);
+                await SendRemoteLogging(ex, errorMessage, context);
             }
 
             _logger.LogError(exception: ex, message: "{@DataObject}", errorMessageObject);
@@ -70,9 +79,11 @@ namespace BusinessServiceTemplate.Api.Middlewares
             await context.Response.WriteAsync(errorMessage);
         }
 
-        private async Task SendRemoteLogging(Exception ex, string msg, HttpRequest request)
-        {   
+        private async Task SendRemoteLogging(Exception ex, string msg, HttpContext context)
+        {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var httpRequestInfo = await HttpContextInfoHelper.GetHttpRequestInfoAsync(context);
 
             var logRequest = new GetLogRequest
             {
@@ -86,8 +97,8 @@ namespace BusinessServiceTemplate.Api.Middlewares
                         LogSource =  typeof(ExceptionHandlingMiddleware).ToString(),
                         AppName =  _loggingSetting.AppName,
                         Message = msg,
-                        ContextData = JsonConvert.SerializeObject(request),
-                        StackTrace = ex.StackTrace?.Substring(0, 4999)
+                        ContextData = JsonConvert.SerializeObject(httpRequestInfo),
+                        StackTrace = ex.StackTrace.Length > 5000 ? ex.StackTrace?.Substring(0, 4990) : ex.StackTrace
                     },
                 }
             };

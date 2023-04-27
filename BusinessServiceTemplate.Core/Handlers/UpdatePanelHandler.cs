@@ -19,12 +19,10 @@ namespace BusinessServiceTemplate.Core.Handlers
             _mapper = mapper;
         }
         public async Task<PanelDto> Handle(UpdatePanelRequest request, CancellationToken cancellationToken)
-        {   
-            SC_Panel? updatedPanel = null;
-
+        {
             var recordToUpdate = await _testSelectionRepositoryManager.ScPanelRepository.FindById(request.Id);
-            
-            if (recordToUpdate != null) 
+
+            if (recordToUpdate != null)
             {
                 List<SC_Test> sC_Tests = new();
 
@@ -34,19 +32,18 @@ namespace BusinessServiceTemplate.Core.Handlers
                     sC_Tests = tests.ToList();
                 }
 
-                var record = recordToUpdate;
-                record.Name = request.Name;
-                record.Description = request.Description;
-                record.Price = request.Price;
-                record.Tests= sC_Tests;
-                record.Visibility= request.Visibility;
+                recordToUpdate.Name = request.Name;
+                recordToUpdate.Description = request.Description;
+                recordToUpdate.DescriptionVisibility = request.DescriptionVisibility;
+                recordToUpdate.Price = request.Price;
+                recordToUpdate.Tests = sC_Tests;
+                recordToUpdate.Visibility = request.Visibility;
 
-                updatedPanel = await _testSelectionRepositoryManager.ScPanelRepository.Update(record);
-
+                await _testSelectionRepositoryManager.ScPanelRepository.Update(recordToUpdate);
                 await _testSelectionRepositoryManager.Save();
             }
 
-            return _mapper.Map<PanelDto>(updatedPanel);
+            return _mapper.Map<PanelDto>(recordToUpdate);
         }
     }
 }
