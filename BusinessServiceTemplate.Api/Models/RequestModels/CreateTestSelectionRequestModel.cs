@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessServiceTemplate.Api.Models.Forms
+namespace BusinessServiceTemplate.Api.Models.RequestModels
 {
-    public class CreateTestSelectionForm
+    public class CreateTestSelectionRequestModel
     {
         [Required]
         public string Name { set; get; }

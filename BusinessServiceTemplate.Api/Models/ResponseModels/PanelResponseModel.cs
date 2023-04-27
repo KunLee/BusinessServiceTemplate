@@ -1,8 +1,6 @@
-﻿using BusinessServiceTemplate.Core.Dtos;
-
-namespace BusinessServiceTemplate.Api.Models.ViewModels
+﻿namespace BusinessServiceTemplate.Api.Models.ResponseModels
 {
-    public class PanelViewModel
+    public class PanelResponseModel
     {
         public int Id { set;  get; }
         public string Name { set; get; }

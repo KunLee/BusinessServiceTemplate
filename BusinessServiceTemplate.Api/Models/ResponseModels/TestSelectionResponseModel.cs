@@ -1,6 +1,6 @@
-﻿namespace BusinessServiceTemplate.Api.Models.ViewModels
+﻿namespace BusinessServiceTemplate.Api.Models.ResponseModels
 {
-    public class TestSelectionViewModel
+    public class TestSelectionResponseModel
     {
         public int Id { set; get; }
         public string Name { set; get; }

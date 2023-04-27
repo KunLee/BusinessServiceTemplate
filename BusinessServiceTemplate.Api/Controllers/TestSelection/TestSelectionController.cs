@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using BusinessServiceTemplate.Api.Models.Forms;
-using BusinessServiceTemplate.Api.Models.ViewModels;
-using BusinessServiceTemplate.Core.Dtos;
-using BusinessServiceTemplate.Core.Requests;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
+using MediatR;
+using BusinessServiceTemplate.Api.Models.RequestModels;
+using BusinessServiceTemplate.Api.Models.ResponseModels;
+using BusinessServiceTemplate.Core.Requests;
+
 
 namespace BusinessServiceTemplate.Api.Controllers.TestSelection
 {
@@ -31,11 +30,11 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PanelViewModel>> GetPanel(int id)
+        public async Task<ActionResult<PanelResponseModel>> GetPanel(int id)
         {
             var panel = await _mediator.Send(new GetPanelRequest(id));
 
-            return panel == null ? NotFound() : _mapper.Map<PanelViewModel>(panel);
+            return panel == null ? NotFound() : _mapper.Map<PanelResponseModel>(panel);
         }
 
         /// <summary>
@@ -44,12 +43,12 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <returns>The list of the panels</returns>
         [HttpGet("panels")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<PanelViewModel>))]
-        public async Task<IList<PanelViewModel>> GetAllPanels() 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<PanelResponseModel>))]
+        public async Task<IList<PanelResponseModel>> GetAllPanels() 
         {
             var allPanels = await _mediator.Send(new GetAllPanelsRequest());
 
-            return allPanels.Select(_mapper.Map<PanelViewModel>).ToList();
+            return allPanels.Select(_mapper.Map<PanelResponseModel>).ToList();
         }
 
         /// <summary>
@@ -60,20 +59,20 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpPost("panel")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<PanelViewModel>> AddPanel([FromBody] CreatePanelForm form)
+        public async Task<ActionResult<PanelResponseModel>> AddPanel([FromBody] CreatePanelRequestModel requestModel)
         {
             var panelDto = await _mediator.Send(new CreatePanelRequest() { 
-                Name = form.Name,
-                Description = form.Description,
-                Price = form.Price,
-                PriceVisibility = form.PriceVisibility,
-                DescriptionVisibility = form.DescriptionVisibility,
-                TestSelectionId = form.TestSelectionId,
-                TestIds= form.TestIds,
-                Visibility = form.Visibility
+                Name = requestModel.Name,
+                Description = requestModel.Description,
+                Price = requestModel.Price,
+                PriceVisibility = requestModel.PriceVisibility,
+                DescriptionVisibility = requestModel.DescriptionVisibility,
+                TestSelectionId = requestModel.TestSelectionId,
+                TestIds= requestModel.TestIds,
+                Visibility = requestModel.Visibility
             });
 
-            return CreatedAtAction(nameof(GetPanel), new { id = panelDto.Id }, _mapper.Map<TestViewModel>(panelDto));
+            return CreatedAtAction(nameof(GetPanel), new { id = panelDto.Id }, _mapper.Map<TestResponseModel>(panelDto));
         }
 
         /// <summary>
@@ -86,22 +85,22 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PanelViewModel>> UpdatePanel(int id, [FromBody] UpdatePanelForm form)
+        public async Task<ActionResult<PanelResponseModel>> UpdatePanel(int id, [FromBody] UpdatePanelRequestModel requestModel)
         {
             var panelDto = await _mediator.Send(new UpdatePanelRequest()
             {
                 Id = id,
-                Name = form.Name,
-                Description = form.Description,
-                DescriptionVisibility = form.DescriptionVisibility,
-                PriceVisibility = form.PriceVisibility,
-                TestSelectionId = form.TestSelectionId,
-                Price = form.Price,
-                TestIds = form.TestIds,
-                Visibility = form.Visibility
+                Name = requestModel.Name,
+                Description = requestModel.Description,
+                DescriptionVisibility = requestModel.DescriptionVisibility,
+                PriceVisibility = requestModel.PriceVisibility,
+                TestSelectionId = requestModel.TestSelectionId,
+                Price = requestModel.Price,
+                TestIds = requestModel.TestIds,
+                Visibility = requestModel.Visibility
             });
 
-            return panelDto == null ? NotFound() : CreatedAtAction(nameof(GetPanel), new { id = panelDto.Id }, _mapper.Map<PanelViewModel>(panelDto));
+            return panelDto == null ? NotFound() : CreatedAtAction(nameof(GetPanel), new { id = panelDto.Id }, _mapper.Map<PanelResponseModel>(panelDto));
         }
 
         /// <summary>
@@ -112,14 +111,14 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpDelete("panel/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PanelViewModel>> DeletePanel(int id)
+        public async Task<ActionResult<PanelResponseModel>> DeletePanel(int id)
         {
             var panel = await _mediator.Send(
                 new DeletePanelRequest
                 {
                     Id = id
                 });
-            return panel == null ? NotFound() : _mapper.Map<PanelViewModel>(panel);
+            return panel == null ? NotFound() : _mapper.Map<PanelResponseModel>(panel);
         }
 
         /// <summary>
@@ -129,10 +128,10 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("tests")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IList<TestViewModel>> GetAllTests()
+        public async Task<IList<TestResponseModel>> GetAllTests()
         {
             var list = await _mediator.Send(new GetAllTestsRequest());
-            return list.Select(_mapper.Map<TestViewModel>).ToList();
+            return list.Select(_mapper.Map<TestResponseModel>).ToList();
         }
 
         /// <summary>
@@ -143,11 +142,11 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestViewModel>> GetTest(int id)
+        public async Task<ActionResult<TestResponseModel>> GetTest(int id)
         {
             var test = await _mediator.Send(new GetTestRequest(id));
 
-            return test == null ? NotFound() : _mapper.Map<TestViewModel>(test);
+            return test == null ? NotFound() : _mapper.Map<TestResponseModel>(test);
         }
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpPost("test")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<TestViewModel>> AddTest([FromBody] CreateTestForm form)
+        public async Task<ActionResult<TestResponseModel>> AddTest([FromBody] CreateTestRequestModel form)
         {
             var testDto = await _mediator.Send(new CreateTestRequest()
             {
@@ -167,7 +166,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 DescriptionVisibility = form.DescriptionVisibility,
                 PanelIds = form.PanelIds
             });
-            return CreatedAtAction(nameof(GetTest), new { id = testDto.Id }, _mapper.Map<TestViewModel>(testDto));
+            return CreatedAtAction(nameof(GetTest), new { id = testDto.Id }, _mapper.Map<TestResponseModel>(testDto));
         }
 
         /// <summary>
@@ -180,17 +179,17 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestViewModel>> UpdateTest(int id, [FromBody] UpdateTestForm form)
+        public async Task<ActionResult<TestResponseModel>> UpdateTest(int id, [FromBody] UpdateTestRequestModel requestModel)
         {
             var testDto = await _mediator.Send(new UpdateTestRequest()
             {
                 Id = id,
-                Name = form.Name,
-                Description = form.Description,
-                DescriptionVisibility = form.DescriptionVisibility,
-                PanelIds = form.PanelIds
+                Name = requestModel.Name,
+                Description = requestModel.Description,
+                DescriptionVisibility = requestModel.DescriptionVisibility,
+                PanelIds = requestModel.PanelIds
             });
-            return testDto == null ? NotFound() : CreatedAtAction(nameof(GetTest), new { id = testDto.Id }, _mapper.Map<TestViewModel>(testDto));
+            return testDto == null ? NotFound() : CreatedAtAction(nameof(GetTest), new { id = testDto.Id }, _mapper.Map<TestResponseModel>(testDto));
         }
 
         /// <summary>
@@ -200,7 +199,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpDelete("test/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestViewModel>> DeleteTest(int id)
+        public async Task<ActionResult<TestResponseModel>> DeleteTest(int id)
         {
             var test = await _mediator.Send(
                         new DeleteTestRequest
@@ -208,7 +207,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                             Id = id
                         });
 
-            return test == null ? NotFound() : _mapper.Map<TestViewModel>(test);
+            return test == null ? NotFound() : _mapper.Map<TestResponseModel>(test);
         }
 
         /// <summary>
@@ -218,10 +217,10 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("testselections")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IList<TestSelectionViewModel>> GetAllTestSelections()
+        public async Task<IList<TestSelectionResponseModel>> GetAllTestSelections()
         {
             var list = await _mediator.Send(new GetAllTestSelectionsRequest());
-            return list.Select(_mapper.Map<TestSelectionViewModel>).ToList();
+            return list.Select(_mapper.Map<TestSelectionResponseModel>).ToList();
         }
 
         /// <summary>
@@ -232,10 +231,10 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestSelectionViewModel>> GetTestSelection(int id)
+        public async Task<ActionResult<TestSelectionResponseModel>> GetTestSelection(int id)
         {
             var testSelection = await _mediator.Send(new GetTestSelectionRequest(id));
-            return testSelection == null ? NotFound() : _mapper.Map<TestSelectionViewModel>(testSelection);
+            return testSelection == null ? NotFound() : _mapper.Map<TestSelectionResponseModel>(testSelection);
         }
 
         /// <summary>
@@ -245,11 +244,11 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("testselections/speciality/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IList<TestSelectionViewModel>> GetTestSelectionsBySpecialityId(int id)
+        public async Task<IList<TestSelectionResponseModel>> GetTestSelectionsBySpecialityId(int id)
         {
             var testSelections = await _mediator.Send(new GetTestSelectionsBySpecialityRequest(id));
 
-            return testSelections.Select(_mapper.Map<TestSelectionViewModel>).ToList();
+            return testSelections.Select(_mapper.Map<TestSelectionResponseModel>).ToList();
         }
 
         /// <summary>
@@ -260,17 +259,17 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpPost("testselection")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<TestSelectionViewModel>> AddTestSelection([FromBody] CreateTestSelectionForm form)
+        public async Task<ActionResult<TestSelectionResponseModel>> AddTestSelection([FromBody] CreateTestSelectionRequestModel requestModel)
         {
             var testSelectionDto = await _mediator.Send(new CreateTestSelectionRequest()
             {
-                Name = form.Name,
-                Description = form.Description,
-                SpecialityId= form.SpecialityId,
-                DescriptionVisibility = form.DescriptionVisibility
+                Name = requestModel.Name,
+                Description = requestModel.Description,
+                SpecialityId= requestModel.SpecialityId,
+                DescriptionVisibility = requestModel.DescriptionVisibility
             });
 
-            return CreatedAtAction(nameof(GetTestSelection), new { id = testSelectionDto.Id }, _mapper.Map<TestSelectionViewModel>(testSelectionDto)); 
+            return CreatedAtAction(nameof(GetTestSelection), new { id = testSelectionDto.Id }, _mapper.Map<TestSelectionResponseModel>(testSelectionDto)); 
         }
 
         /// <summary>
@@ -283,18 +282,18 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestSelectionViewModel>> UpdateTestSelection(int id, [FromBody] UpdateTestSelectionForm form)
+        public async Task<ActionResult<TestSelectionResponseModel>> UpdateTestSelection(int id, [FromBody] UpdateTestSelectionRequestModel requestModel)
         {
             var testSelectionDto = await _mediator.Send(new UpdateTestSelectionRequest()
             {
                 Id = id,
-                Name = form.Name,
-                Description = form.Description,
-                DescriptionVisibility = form.DescriptionVisibility,
-                SpecialityId= form.SpecialityId
+                Name = requestModel.Name,
+                Description = requestModel.Description,
+                DescriptionVisibility = requestModel.DescriptionVisibility,
+                SpecialityId= requestModel.SpecialityId
             });
 
-            return testSelectionDto == null ? NotFound() : CreatedAtAction(nameof(GetTestSelection), new { id = testSelectionDto.Id }, _mapper.Map<TestSelectionViewModel>(testSelectionDto));
+            return testSelectionDto == null ? NotFound() : CreatedAtAction(nameof(GetTestSelection), new { id = testSelectionDto.Id }, _mapper.Map<TestSelectionResponseModel>(testSelectionDto));
         }
 
         /// <summary>
@@ -304,14 +303,14 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpDelete("testselection/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestSelectionViewModel>> DeleteTestSelection(int id)
+        public async Task<ActionResult<TestSelectionResponseModel>> DeleteTestSelection(int id)
         {
             var testSelection = await _mediator.Send(
                                 new DeleteTestSelectionRequest
                                 {
                                     Id = id
                                 });
-            return testSelection == null ? NotFound() : _mapper.Map<TestSelectionViewModel>(testSelection);
+            return testSelection == null ? NotFound() : _mapper.Map<TestSelectionResponseModel>(testSelection);
         }
 
         /// <summary>
@@ -323,16 +322,16 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PanelTestViewModel>> UpdatePanelTestVisibility([FromBody] UpdatePanelTestForm updatePanelTestForm)
+        public async Task<ActionResult<PanelTestResponseModel>> UpdatePanelTestVisibility([FromBody] UpdatePanelTestRequestModel updatePanelTestRequestModel)
         {
             var panelTest = await _mediator.Send(new UpdatePanelTestRequest()
             {
-                PanelId = updatePanelTestForm.PanelId,
-                TestId = updatePanelTestForm.TestId,
-                Visibility= updatePanelTestForm.Visibility
+                PanelId = updatePanelTestRequestModel.PanelId,
+                TestId = updatePanelTestRequestModel.TestId,
+                Visibility= updatePanelTestRequestModel.Visibility
             });
 
-            return panelTest == null ? NotFound() : _mapper.Map<PanelTestViewModel>(panelTest);
+            return panelTest == null ? NotFound() : _mapper.Map<PanelTestResponseModel>(panelTest);
         }
 
         /// <summary>
@@ -343,14 +342,14 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PanelTestViewModel>> GetPanelTestByIds([FromQuery] int panelId, [FromQuery] int testId)
+        public async Task<ActionResult<PanelTestResponseModel>> GetPanelTestByIds([FromQuery] int panelId, [FromQuery] int testId)
         {
             var panelTest = await _mediator.Send(new GetPanelTestByIdsRequest { 
                 PanelId = panelId,
                 TestId = testId
             });
 
-            return panelTest == null ? NotFound() : _mapper.Map<PanelTestViewModel>(panelTest);
+            return panelTest == null ? NotFound() : _mapper.Map<PanelTestResponseModel>(panelTest);
         }
     }
 }

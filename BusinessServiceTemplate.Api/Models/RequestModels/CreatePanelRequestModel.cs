@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessServiceTemplate.Api.Models.Forms
+namespace BusinessServiceTemplate.Api.Models.RequestModels
 {
-    public class CreatePanelForm
+    public class CreatePanelRequestModel
     {
         [Required]
         public string Name { get; set; }

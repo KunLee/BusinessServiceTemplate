@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessServiceTemplate.Api.Models.ViewModels;
+using BusinessServiceTemplate.Api.Models.ResponseModels;
 using BusinessServiceTemplate.Core.Dtos;
 
 namespace BusinessServiceTemplate.Api.Models.Mapper
@@ -8,7 +8,7 @@ namespace BusinessServiceTemplate.Api.Models.Mapper
     {
         public PanelTestDtoToVmMapper()
         {
-            CreateMap<PanelTestDto, PanelTestViewModel>();
+            CreateMap<PanelTestDto, PanelTestResponseModel>();
         }
     }
 }
