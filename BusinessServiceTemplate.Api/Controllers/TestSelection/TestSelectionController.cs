@@ -56,7 +56,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// </summary>
         /// <param name="form">The data describing the Panel details</param>
         /// <returns>The added Panel object</returns>
-        [HttpPost("panel")]
+        [HttpPost("panels")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<PanelResponseModel>> AddPanel([FromBody] CreatePanelRequestModel requestModel)
@@ -81,15 +81,15 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <param name="id">The ID of the Test Panel</param>
         /// <param name="form">The data describing the Panel details to update</param>
         /// <returns>The updated Panel object</returns>
-        [HttpPut("panel/{id}")]
+        [HttpPut("panels")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PanelResponseModel>> UpdatePanel(int id, [FromBody] UpdatePanelRequestModel requestModel)
+        public async Task<ActionResult<PanelResponseModel>> UpdatePanel([FromBody] UpdatePanelRequestModel requestModel)
         {
             var panelDto = await _mediator.Send(new UpdatePanelRequest()
             {
-                Id = id,
+                Id = requestModel.Id,
                 Name = requestModel.Name,
                 Description = requestModel.Description,
                 DescriptionVisibility = requestModel.DescriptionVisibility,
@@ -108,7 +108,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// </summary>
         /// <param name="id">The ID of the Test Panel</param>
         /// <returns></returns>
-        [HttpDelete("panel/{id}")]
+        [HttpDelete("panels/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PanelResponseModel>> DeletePanel(int id)
@@ -154,7 +154,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// </summary>
         /// <param name="form">The data describing the Test details</param>
         /// <returns>The added Test object</returns>
-        [HttpPost("test")]
+        [HttpPost("tests")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<TestResponseModel>> AddTest([FromBody] CreateTestRequestModel form)
@@ -175,15 +175,15 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <param name="id">The ID of the Test</param>
         /// <param name="form">The data describing the Test details to update</param>
         /// <returns>The updated Test object</returns>
-        [HttpPut("test/{id}")]
+        [HttpPut("tests")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestResponseModel>> UpdateTest(int id, [FromBody] UpdateTestRequestModel requestModel)
+        public async Task<ActionResult<TestResponseModel>> UpdateTest([FromBody] UpdateTestRequestModel requestModel)
         {
             var testDto = await _mediator.Send(new UpdateTestRequest()
             {
-                Id = id,
+                Id = requestModel.Id,
                 Name = requestModel.Name,
                 Description = requestModel.Description,
                 DescriptionVisibility = requestModel.DescriptionVisibility,
@@ -256,7 +256,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// </summary>
         /// <param name="form">The data describing the Test Selection details</param>
         /// <returns>The added Test Selection object</returns>
-        [HttpPost("testselection")]
+        [HttpPost("testselections")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<TestSelectionResponseModel>> AddTestSelection([FromBody] CreateTestSelectionRequestModel requestModel)
@@ -278,15 +278,15 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <param name="id">The ID of the Test Selection</param>
         /// <param name="form">The data describing the Test Selection details to update</param>
         /// <returns>The updated Test Selection object</returns>
-        [HttpPut("testselection/{id}")]
+        [HttpPut("testselections/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TestSelectionResponseModel>> UpdateTestSelection(int id, [FromBody] UpdateTestSelectionRequestModel requestModel)
+        public async Task<ActionResult<TestSelectionResponseModel>> UpdateTestSelection([FromBody] UpdateTestSelectionRequestModel requestModel)
         {
             var testSelectionDto = await _mediator.Send(new UpdateTestSelectionRequest()
             {
-                Id = id,
+                Id = requestModel.Id,
                 Name = requestModel.Name,
                 Description = requestModel.Description,
                 DescriptionVisibility = requestModel.DescriptionVisibility,
@@ -300,7 +300,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// Deletes an existing Test Selection
         /// </summary>
         /// <param name="id">The ID of the test selection to delete</param>
-        [HttpDelete("testselection/{id}")]
+        [HttpDelete("testselections/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TestSelectionResponseModel>> DeleteTestSelection(int id)
