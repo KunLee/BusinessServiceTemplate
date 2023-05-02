@@ -14,12 +14,15 @@ namespace BusinessServiceTemplate.DataAccess.Data.Repositories
             _repositoryContext = repositoryContext;
         }
         public async Task<SC_TestSelection?> FindById(int id) => 
-            await _repositoryContext.SC_TestSelections.Include(x => x.Panels).FirstOrDefaultAsync(i => i.Id == id);
+            await _repositoryContext.SC_TestSelections
+                    .Include(x => x.Panels)
+                    .ThenInclude(t => t.Tests)
+                    .FirstOrDefaultAsync(i => i.Id == id);
 
         public async Task<IList<SC_TestSelection>> FindBySpecialityId(int specialityId)
         {
             var testSelectionList = await _repositoryContext.SC_TestSelections
-                .Include(x => x.Panels)
+                .Include(x => x.Panels).ThenInclude(t => t.Tests)
                 .Where(i => i.SpecialityId == specialityId)
                 .ToListAsync();
             return testSelectionList;

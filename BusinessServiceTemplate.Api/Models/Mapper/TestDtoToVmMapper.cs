@@ -9,7 +9,17 @@ namespace BusinessServiceTemplate.Api.Models.Mapper
         public TestDtoToVmMapper()
         {
             CreateMap<TestDto, TestResponseModel>()
-                .ForMember(dest => dest.Panels, opt => opt.MapFrom(so => so.Panels.Select(t => t.Id).ToList()));
+                .ForMember(dest => dest.Panels, opt => opt.MapFrom(so => so.Panels.Select(t => 
+                    new PanelInTestResponseModel 
+                    { 
+                        Id = t.Id,
+                        Name = t.Name,
+                        Description = t.Description,
+                        DescriptionVisibility = t.DescriptionVisibility,
+                        Price = t.Price,
+                        PriceVisibility = t.PriceVisibility,
+                        TestSelectionId = t.TestSelectionId
+                    }).ToList()));
         }
     }
 }

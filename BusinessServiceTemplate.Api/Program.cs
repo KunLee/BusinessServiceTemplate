@@ -5,6 +5,7 @@ using BusinessServiceTemplate.Api.Settings;
 using BusinessServiceTemplate.Shared.Common;
 using FluentAssertions.Common;
 using LoggingService.Client.Extensions;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -32,8 +33,14 @@ builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(Log.Logger);
 
 var config = builder.Configuration;
-// Add services to the container.
 
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+{
+    Formatting = Newtonsoft.Json.Formatting.Indented,
+    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+};
+
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -19,8 +19,7 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<TestSelectionDto> Handle(GetTestSelectionRequest request, CancellationToken cancellationToken)
         {
-            var testSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.Find(request.Id);
-            var panels = testSelection.Panels;
+            var testSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindById(request.Id);
 
             return _mapper.Map<TestSelectionDto>(testSelection);
         }

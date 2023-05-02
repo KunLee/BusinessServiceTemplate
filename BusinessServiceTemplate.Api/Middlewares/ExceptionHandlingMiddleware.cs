@@ -60,7 +60,8 @@ namespace BusinessServiceTemplate.Api.Middlewares
             var errorMessageObject = new
             {
                 Code = codeMsg,
-                ErrorId = errorId
+                ErrorId = errorId,
+                //Exception = ex
             };
 
             var errorMessage = JsonConvert.SerializeObject(errorMessageObject);
