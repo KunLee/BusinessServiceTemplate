@@ -2,9 +2,7 @@ using BusinessServiceTemplate.Api.Enrichers;
 using BusinessServiceTemplate.Api.Extensions;
 using BusinessServiceTemplate.Api.Middlewares;
 using BusinessServiceTemplate.Api.Settings;
-using BusinessServiceTemplate.Shared.Common;
-using FluentAssertions.Common;
-using LoggingService.Client.Extensions;
+//using LoggingService.Client.Extensions;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
@@ -63,7 +61,7 @@ builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureMediatR();
 
 // Setup Remote Logging Service
-builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
+//builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
 
 var app = builder.Build();
 
