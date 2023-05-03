@@ -72,7 +72,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 Visibility = requestModel.Visibility
             });
 
-            return CreatedAtAction(nameof(GetPanel), new { id = panelDto.Id }, _mapper.Map<TestResponseModel>(panelDto));
+            return CreatedAtAction(nameof(GetPanel), new { id = panelDto.Id }, _mapper.Map<PanelResponseModel>(panelDto));
         }
 
         /// <summary>

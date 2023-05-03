@@ -14,6 +14,11 @@ namespace BusinessServiceTemplate.Shared.DataAccess
             _dbSet = repositoryContext.Set<T>();
         }
 
+        public async Task<bool> Any(Expression<Func<T, bool>> expression)
+        {
+            return await Task.Run(() => _dbSet.AnyAsync(expression));
+        }
+
         public async Task<T> Find(T entity)
         {
             return await Task.Run(() => _dbSet.Find(entity));

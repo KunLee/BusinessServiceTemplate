@@ -29,6 +29,12 @@ namespace BusinessServiceTemplate.Shared.DataAccess.Interfaces
         Task<IQueryable<T>> FindAll(bool hasChangesTracked = true);
 
         /// <summary>
+        /// Check for duplicate records
+        /// </summary>
+        /// <param name="expression">The input expression with conditions</param>
+        /// <returns></returns>
+        Task<bool> Any(Expression<Func<T, bool>> expression);
+        /// <summary>
         /// Find records by an expression input
         /// </summary>
         /// <param name="expression">The input expression with conditions</param>

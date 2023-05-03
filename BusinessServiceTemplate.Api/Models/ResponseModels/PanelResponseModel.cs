@@ -6,6 +6,7 @@
         public string Name { set; get; }
         public string? Description { set; get; }
         public bool? DescriptionVisibility { set; get; }
+        public bool? Visibility { set; get; }
         public decimal? Price { set; get; }
         public bool? PriceVisibility { set; get; }
         public int TestSelectionId { get; set; }
