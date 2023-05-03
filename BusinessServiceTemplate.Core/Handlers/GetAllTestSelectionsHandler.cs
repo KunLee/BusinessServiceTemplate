@@ -21,7 +21,7 @@ namespace BusinessServiceTemplate.Core.Handlers
         public async Task<IList<TestSelectionDto>> Handle(GetAllTestSelectionsRequest request, CancellationToken cancellationToken)
         {
             var testSelectionList = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindAll();
-            var fullSelectionList = testSelectionList.Include(x => x.Panels);
+            var fullSelectionList = testSelectionList.Include(x => x.Panels).ThenInclude(t => t.Tests);
             return fullSelectionList.Select(_mapper.Map<TestSelectionDto>).ToList();
         }
     }
