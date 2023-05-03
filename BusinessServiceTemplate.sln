@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Database.Migrator", "BusinessServiceTemplate.Database.Migrator\BusinessServiceTemplate.Database.Migrator.csproj", "{981ECAB6-59F2-43B7-9502-E58550E61E80}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BusinessServiceTemplate.Database", "BusinessServiceTemplate.Database\BusinessServiceTemplate.Database.sqlproj", "{27275817-D323-4E26-B738-CE145683EFB5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Shared.DataAccess", "BusinessServiceTemplate.Shared.DataAccess\BusinessServiceTemplate.Shared.DataAccess.csproj", "{6E10D32A-60B0-46AB-AECB-3864D8CE4558}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Shared", "BusinessServiceTemplate.Shared\BusinessServiceTemplate.Shared.csproj", "{F157067C-7F5F-4758-A832-CCA67909F3FF}"
@@ -41,12 +39,6 @@ Global
 		{981ECAB6-59F2-43B7-9502-E58550E61E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{981ECAB6-59F2-43B7-9502-E58550E61E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{981ECAB6-59F2-43B7-9502-E58550E61E80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27275817-D323-4E26-B738-CE145683EFB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27275817-D323-4E26-B738-CE145683EFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27275817-D323-4E26-B738-CE145683EFB5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{27275817-D323-4E26-B738-CE145683EFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27275817-D323-4E26-B738-CE145683EFB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27275817-D323-4E26-B738-CE145683EFB5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{6E10D32A-60B0-46AB-AECB-3864D8CE4558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E10D32A-60B0-46AB-AECB-3864D8CE4558}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E10D32A-60B0-46AB-AECB-3864D8CE4558}.Release|Any CPU.ActiveCfg = Release|Any CPU
