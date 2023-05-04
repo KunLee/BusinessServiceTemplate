@@ -16,7 +16,7 @@ namespace BusinessServiceTemplate.Shared.DataAccess
 
         public async Task<bool> Any(Expression<Func<T, bool>> expression)
         {
-            return await Task.Run(() => _dbSet.AnyAsync(expression));
+            return await _dbSet.AnyAsync(expression);
         }
 
         public async Task<T> Find(T entity)

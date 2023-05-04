@@ -4,6 +4,8 @@ using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
 using BusinessServiceTemplate.DataAccess.Entities;
+using BusinessServiceTemplate.Shared.Common;
+using BusinessServiceTemplate.Shared.Exceptions;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -20,28 +22,49 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<TestDto> Handle(UpdateTestRequest request, CancellationToken cancellationToken)
         {
-            var recordToUpdate = await _testSelectionRepositoryManager.ScTestRepository.FindById(request.Id);
+            var recordToUpdate = await ValidateRequestData(request);
 
-            if (recordToUpdate != null)
-            {
-                List<SC_Panel> sC_Panels = new();
-
-                if (request.PanelIds != null && request.PanelIds.Any())
-                {
-                    var panels = await _testSelectionRepositoryManager.ScPanelRepository.FindByCondition(x => request.PanelIds.Contains(x.Id));
-                    sC_Panels = panels.ToList();
-                }
-
-                recordToUpdate.Name = request.Name;
-                recordToUpdate.Description = request.Description;
-                recordToUpdate.DescriptionVisibility = request.DescriptionVisibility;
-                recordToUpdate.Panels = sC_Panels;
-
-                await _testSelectionRepositoryManager.ScTestRepository.Update(recordToUpdate);
-                await _testSelectionRepositoryManager.Save();
-            }
+            await _testSelectionRepositoryManager.ScTestRepository.Update(recordToUpdate);
+            await _testSelectionRepositoryManager.Save();
 
             return _mapper.Map<TestDto>(recordToUpdate);
+        }
+
+        private async Task<SC_Test> ValidateRequestData(UpdateTestRequest request)
+        {
+            var recordFound = await _testSelectionRepositoryManager.ScTestRepository.Find(request.Id);
+
+            if (recordFound == null)
+            {
+                throw new ValidationException(ConstantStrings.NO_REQUESTED_RECORD);
+            }
+
+            // Validate the Panel Ids
+            List<SC_Panel> sC_Panels = new();
+
+            if (request.PanelIds != null && request.PanelIds.Any())
+            {
+                foreach (var panelId in request.PanelIds)
+                {
+                    var panel = await _testSelectionRepositoryManager.ScPanelRepository.Find(panelId);
+
+                    if (panel != null)
+                    {
+                        sC_Panels.Add(panel);
+                    }
+                    else
+                    {
+                        throw new ValidationException(ConstantStrings.INVALID_REQUEST_DATA);
+                    }
+                }
+            }
+
+            recordFound.Name = request.Name;
+            recordFound.Description = request.Description;
+            recordFound.DescriptionVisibility = request.DescriptionVisibility;
+            recordFound.Panels = sC_Panels;
+
+            return recordFound;
         }
     }
 }

@@ -3,6 +3,8 @@ using BusinessServiceTemplate.DataAccess;
 using BusinessServiceTemplate.Core.Dtos;
 using MediatR;
 using AutoMapper;
+using BusinessServiceTemplate.Shared.Common;
+using BusinessServiceTemplate.Shared.Exceptions;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -29,6 +31,11 @@ namespace BusinessServiceTemplate.Core.Handlers
 
                 await _testSelectionRepositoryManager.Save();
             }
+            else
+            {
+                throw new ValidationException(ConstantStrings.NO_REQUESTED_RECORD);
+            }
+
             return _mapper.Map<PanelTestDto>(recordToUpdate);
         }
     }

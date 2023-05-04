@@ -41,11 +41,11 @@ namespace BusinessServiceTemplate.Core.Handlers
             {
                 foreach (var testId in request.TestIds)
                 {
-                    var panel = await _testSelectionRepositoryManager.ScTestRepository.FindByCondition(x => x.Id == testId);
+                    var test = await _testSelectionRepositoryManager.ScTestRepository.Find(testId);
 
-                    if (panel.Any())
+                    if (test != null)
                     {
-                        sC_Tests.AddRange(panel);
+                        sC_Tests.Add(test);
                     }
                     else
                     {
@@ -86,6 +86,8 @@ namespace BusinessServiceTemplate.Core.Handlers
             {
                 Name = request.Name,
                 Description = request.Description,
+                DescriptionVisibility = request.DescriptionVisibility,
+                PriceVisibility = request.PriceVisibility,
                 Price = request.Price,
                 TestSelection = testSelection,
                 Tests = sC_Tests,

@@ -19,7 +19,7 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<PanelDto> Handle(GetPanelRequest request, CancellationToken cancellationToken)
         {
-            var panel = await _testSelectionRepositoryManager.ScPanelRepository.FindById(request.Id);
+            var panel = await _testSelectionRepositoryManager.ScPanelRepository.FindByIdWithTests(request.Id);
             return _mapper.Map<PanelDto>(panel);
         }
     }

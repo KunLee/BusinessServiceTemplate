@@ -14,6 +14,12 @@ namespace BusinessServiceTemplate.DataAccess.Data.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<SC_Panel?> FindById(int id) => await _repositoryContext.SC_Panels.Include(x => x.Tests).FirstOrDefaultAsync(i => i.Id == id);
+        /// <summary>
+        /// Fetch the SC_Panel record with the associated Test records
+        /// * This should not be used/involved in Create/Update since it includes Tests
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<SC_Panel?> FindByIdWithTests(int id) => await _repositoryContext.SC_Panels.Include(x => x.Tests).FirstOrDefaultAsync(i => i.Id == id);
     }
 }

@@ -152,19 +152,19 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <summary>
         /// Add a new Test with full details
         /// </summary>
-        /// <param name="form">The data describing the Test details</param>
+        /// <param name="requestModel">The data describing the Test details</param>
         /// <returns>The added Test object</returns>
         [HttpPost("tests")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<TestResponseModel>> AddTest([FromBody] CreateTestRequestModel form)
+        public async Task<ActionResult<TestResponseModel>> AddTest([FromBody] CreateTestRequestModel requestModel)
         {
             var testDto = await _mediator.Send(new CreateTestRequest()
             {
-                Name = form.Name,
-                Description = form.Description,
-                DescriptionVisibility = form.DescriptionVisibility,
-                PanelIds = form.PanelIds
+                Name = requestModel.Name,
+                Description = requestModel.Description,
+                DescriptionVisibility = requestModel.DescriptionVisibility,
+                PanelIds = requestModel.PanelIds
             });
             return CreatedAtAction(nameof(GetTest), new { id = testDto.Id }, _mapper.Map<TestResponseModel>(testDto));
         }
@@ -172,8 +172,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <summary>
         /// Update an existing Test
         /// </summary>
-        /// <param name="id">The ID of the Test</param>
-        /// <param name="form">The data describing the Test details to update</param>
+        /// <param name="requestModel">The data describing the Test details to update</param>
         /// <returns>The updated Test object</returns>
         [HttpPut("tests")]
         [Produces("application/json")]
@@ -278,7 +277,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <param name="id">The ID of the Test Selection</param>
         /// <param name="form">The data describing the Test Selection details to update</param>
         /// <returns>The updated Test Selection object</returns>
-        [HttpPut("testselections/{id}")]
+        [HttpPut("testselections")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

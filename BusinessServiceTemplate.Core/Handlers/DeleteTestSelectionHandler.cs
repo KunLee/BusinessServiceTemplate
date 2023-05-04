@@ -4,6 +4,8 @@ using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
 using BusinessServiceTemplate.DataAccess.Entities;
+using BusinessServiceTemplate.Shared.Common;
+using BusinessServiceTemplate.Shared.Exceptions;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -26,6 +28,10 @@ namespace BusinessServiceTemplate.Core.Handlers
             {
                 await _testSelectionRepositoryManager.ScTestSelectionRepository.Delete(testSelection);
                 await _testSelectionRepositoryManager.Save();
+            }
+            else
+            {
+                throw new ValidationException(ConstantStrings.NO_REQUESTED_RECORD);
             }
 
             return _mapper.Map<TestSelectionDto>(testSelection);

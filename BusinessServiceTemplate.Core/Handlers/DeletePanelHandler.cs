@@ -3,6 +3,8 @@ using BusinessServiceTemplate.Core.Requests;
 using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
+using BusinessServiceTemplate.Shared.Common;
+using BusinessServiceTemplate.Shared.Exceptions;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -19,12 +21,16 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<PanelDto> Handle(DeletePanelRequest request, CancellationToken cancellationToken)
         {
-            var panel = await _testSelectionRepositoryManager.ScPanelRepository.FindById(request.Id);
+            var panel = await _testSelectionRepositoryManager.ScPanelRepository.Find(request.Id);
 
-            if (panel != null) 
+            if (panel != null)
             {
                 await _testSelectionRepositoryManager.ScPanelRepository.Delete(panel);
                 await _testSelectionRepositoryManager.Save();
+            }
+            else 
+            {
+                throw new ValidationException(ConstantStrings.NO_REQUESTED_RECORD);
             }
             
             return _mapper.Map<PanelDto>(panel);

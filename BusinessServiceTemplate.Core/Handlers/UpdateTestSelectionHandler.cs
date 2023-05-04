@@ -4,6 +4,8 @@ using BusinessServiceTemplate.DataAccess;
 using MediatR;
 using AutoMapper;
 using BusinessServiceTemplate.DataAccess.Entities;
+using BusinessServiceTemplate.Shared.Common;
+using BusinessServiceTemplate.Shared.Exceptions;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -20,19 +22,28 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<TestSelectionDto> Handle(UpdateTestSelectionRequest request, CancellationToken cancellationToken)
         {
-            var recordToUpdate = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindById(request.Id);
+            var recordToUpdate = await ValidateRequestData(request);
+            await _testSelectionRepositoryManager.ScTestSelectionRepository.Update(recordToUpdate);
+            await _testSelectionRepositoryManager.Save();
 
-            if (recordToUpdate != null)
-            {
-                recordToUpdate.Name = request.Name;
-                recordToUpdate.Description = request.Description;
-                recordToUpdate.DescriptionVisibility = request.DescriptionVisibility;
-                recordToUpdate.SpecialityId = request.SpecialityId;
-
-                await _testSelectionRepositoryManager.ScTestSelectionRepository.Update(recordToUpdate);
-                await _testSelectionRepositoryManager.Save();
-            }
             return _mapper.Map<TestSelectionDto>(recordToUpdate);
+        }
+
+        private async Task<SC_TestSelection> ValidateRequestData(UpdateTestSelectionRequest request)
+        {
+            var recordFound = await _testSelectionRepositoryManager.ScTestSelectionRepository.Find(request.Id);
+
+            if (recordFound == null)
+            {
+                throw new ValidationException(ConstantStrings.NO_REQUESTED_RECORD);
+            }
+
+            recordFound.Name = request.Name;
+            recordFound.Description = request.Description;
+            recordFound.DescriptionVisibility = request.DescriptionVisibility;
+            recordFound.SpecialityId = request.SpecialityId;
+
+            return recordFound;
         }
     }
 }

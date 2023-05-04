@@ -5,6 +5,6 @@ namespace BusinessServiceTemplate.DataAccess.Data.Repositories.Interfaces
 {
     public interface IScPanelRepository : IRepositoryBase<SC_Panel>
     {
-        Task<SC_Panel?> FindById(int id);
+        Task<SC_Panel?> FindByIdWithTests(int id);
     }
 }

@@ -13,6 +13,6 @@ namespace BusinessServiceTemplate.DataAccess.Data.Repositories
         {
             _repositoryContext = repositoryContext;
         }
-        public async Task<SC_Test?> FindById(int id) => await _repositoryContext.SC_Tests.Include(x => x.Panels).FirstOrDefaultAsync(i => i.Id == id);
+        public async Task<SC_Test?> FindByIdWithPanels(int id) => await _repositoryContext.SC_Tests.Include(x => x.Panels).FirstOrDefaultAsync(i => i.Id == id);
     }
 }
