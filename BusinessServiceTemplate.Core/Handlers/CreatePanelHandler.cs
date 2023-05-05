@@ -67,7 +67,7 @@ namespace BusinessServiceTemplate.Core.Handlers
                     .FindByCondition(x => x.Name.Equals(request.Name) &&
                                             x.PriceVisibility == request.PriceVisibility &&
                                             Decimal.Compare(x.Price.HasValue ? x.Price.Value : 0, request.Price.HasValue ? request.Price.Value : 0) == 0 &&
-                                            x.TestSelection.Id == request.TestSelectionId &&
+                                            x.TestSelectionId == request.TestSelectionId &&
                                             x.Description == request.Description &&
                                             x.DescriptionVisibility == request.DescriptionVisibility &&
                                             x.Visibility == request.Visibility);
@@ -76,7 +76,11 @@ namespace BusinessServiceTemplate.Core.Handlers
 
             foreach (var panel in panelList)
             {
-                if (request.TestIds.SequenceEqual(panel.Tests.Select(x => x.Id)))
+                if (request.TestIds != null && request.TestIds.SequenceEqual(panel.Tests.Select(x => x.Id)))
+                {
+                    throw new ValidationException(ConstantStrings.DUPLICATE_REQUEST_DATA);
+                }
+                else if (request.TestIds == null && !panel.Tests.Any())
                 {
                     throw new ValidationException(ConstantStrings.DUPLICATE_REQUEST_DATA);
                 }

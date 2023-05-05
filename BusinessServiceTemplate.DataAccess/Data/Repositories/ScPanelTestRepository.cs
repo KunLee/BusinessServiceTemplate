@@ -8,7 +8,7 @@ namespace BusinessServiceTemplate.DataAccess.Data.Repositories
 {
     public class ScPanelTestRepository : RepositoryBase<SC_Panel_Test>, IScPanelTestRepository
     {
-        private readonly TestSelectionRepositoryContext _repositoryContext;
+        private new readonly TestSelectionRepositoryContext _repositoryContext;
 
         public ScPanelTestRepository(TestSelectionRepositoryContext repositoryContext) : base(repositoryContext)
         {

@@ -16,6 +16,6 @@ namespace BusinessServiceTemplate.Database.Migrator
             DbSettings = config.GetSection("DbSettings").Get<DbSettings>();
         }
 
-        internal DbSettings DbSettings { get; private set; }
+        internal DbSettings? DbSettings { get; private set; }
     }
 }

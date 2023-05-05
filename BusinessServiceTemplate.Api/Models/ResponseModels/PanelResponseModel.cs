@@ -3,7 +3,7 @@
     public class PanelResponseModel
     {
         public int Id { set;  get; }
-        public string Name { set; get; }
+        public required string Name { set; get; }
         public string? Description { set; get; }
         public bool? DescriptionVisibility { set; get; }
         public bool? Visibility { set; get; }
@@ -16,8 +16,8 @@
     public class TestInPanelResponseModel
     {
         public int Id { set; get; }
-        public string Name { set; get; }
-        public string Description { set; get; }
+        public required string Name { set; get; }
+        public string? Description { set; get; }
         public bool? DescriptionVisibility { set; get; }
     }
 }

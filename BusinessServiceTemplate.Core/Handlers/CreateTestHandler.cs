@@ -82,6 +82,7 @@ namespace BusinessServiceTemplate.Core.Handlers
             {
                 Name = request.Name,
                 Description = request.Description,
+                DescriptionVisibility = request.DescriptionVisibility,
                 Panels = sC_Panels
             };
         }

@@ -71,6 +71,7 @@ namespace BusinessServiceTemplate.Core.Handlers
             recordFound.Description = request.Description;
             recordFound.DescriptionVisibility = request.DescriptionVisibility;
             recordFound.Price = request.Price;
+            recordFound.PriceVisibility = request.PriceVisibility;
             recordFound.TestSelection = testSelection;
             recordFound.Tests = sC_Tests;
             recordFound.Visibility = request.Visibility;

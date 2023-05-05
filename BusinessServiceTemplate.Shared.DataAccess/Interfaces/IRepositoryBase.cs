@@ -13,14 +13,14 @@ namespace BusinessServiceTemplate.Shared.DataAccess.Interfaces
         /// </summary>
         /// <param name="id">The specified Id</param>
         /// <returns></returns>
-        Task<T> Find(object id);
+        Task<T?> Find(object id);
 
         /// <summary>
         /// Find one object by its entity
         /// </summary>
         /// <param name="entity">The specified entity</param>
         /// <returns></returns>
-        Task<T> Find(T entity);
+        Task<T?> Find(T entity);
         /// <summary>
         /// Return all of the entities
         /// </summary>

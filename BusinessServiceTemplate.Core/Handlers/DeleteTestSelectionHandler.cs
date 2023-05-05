@@ -22,7 +22,7 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<TestSelectionDto> Handle(DeleteTestSelectionRequest request, CancellationToken cancellationToken)
         {
-            var testSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.FindById(request.Id);
+            var testSelection = await _testSelectionRepositoryManager.ScTestSelectionRepository.Find(request.Id);
 
             if (testSelection != null)
             {

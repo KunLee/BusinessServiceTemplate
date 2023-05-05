@@ -10,7 +10,7 @@ namespace BusinessServiceTemplate.Api.Extensions
         {
             //  Create the automapper registration in the DI.
             services.AddAutoMapper(
-                new List<Assembly>
+                new List<Assembly?>
                 {
                     Assembly.GetAssembly(typeof(AssemblyMarker)),
                     Assembly.GetAssembly(typeof(Core.AssemblyMarker))

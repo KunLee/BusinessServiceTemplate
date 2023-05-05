@@ -6,7 +6,7 @@ namespace BusinessServiceTemplate.DataAccess.Entities
     public class SC_TestSelection : DbEntity<int>
     {
         [Required(ErrorMessage = "Name is required.")]
-        public string Name { set; get; }
+        public required string Name { set; get; }
         public string? Description { set; get; }
 
         public bool? DescriptionVisibility { set; get; }

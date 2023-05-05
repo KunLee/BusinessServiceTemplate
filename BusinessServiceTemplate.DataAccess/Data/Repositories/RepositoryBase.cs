@@ -19,11 +19,11 @@ namespace BusinessServiceTemplate.Shared.DataAccess
             return await _dbSet.AnyAsync(expression);
         }
 
-        public async Task<T> Find(T entity)
+        public async Task<T?> Find(T entity)
         {
             return await Task.Run(() => _dbSet.Find(entity));
         }
-        public async Task<T> Find(object id)
+        public async Task<T?> Find(object id)
         {
             return await Task.Run(() => _dbSet.Find(id));
         }

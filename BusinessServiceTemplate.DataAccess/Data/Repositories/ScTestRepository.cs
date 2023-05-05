@@ -8,7 +8,7 @@ namespace BusinessServiceTemplate.DataAccess.Data.Repositories
 {
     public class ScTestRepository : RepositoryBase<SC_Test>, IScTestRepository
     {
-        private readonly TestSelectionRepositoryContext _repositoryContext;
+        private new readonly TestSelectionRepositoryContext _repositoryContext;
         public ScTestRepository(TestSelectionRepositoryContext repositoryContext) : base(repositoryContext)
         {
             _repositoryContext = repositoryContext;

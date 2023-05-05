@@ -23,7 +23,7 @@ namespace BusinessServiceTemplate.Database.Migrator
             var dbConfig = config.GetSection("DbSettings").Get<DbSettings>();
 
             var testSelectionDbBuilder = new DbContextOptionsBuilder<TestSelectionRepositoryContext>()
-                    .UseNpgsql($"Host={dbConfig.Host};Database={dbConfig.Database};Username={dbConfig.Username};Password={dbConfig.Password}",
+                    .UseNpgsql($"Host={dbConfig!.Host};Database={dbConfig.Database};Username={dbConfig.Username};Password={dbConfig.Password}",
                             b => b.MigrationsAssembly("BusinessServiceTemplate.Database.Migrator"));
 
             return new TestSelectionRepositoryContext(testSelectionDbBuilder.Options);

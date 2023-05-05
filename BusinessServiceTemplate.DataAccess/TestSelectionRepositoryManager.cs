@@ -6,11 +6,11 @@ namespace BusinessServiceTemplate.DataAccess
 {
     public class TestSelectionRepositoryManager : ITestSelectionRepositoryManager
     {
-        private TestSelectionRepositoryContext _testSelectionRepositoryContext;
-        private IScPanelRepository _scPanelRepository;
-        private IScTestRepository _scTestRepository;
-        private IScPanelTestRepository _scPanelTestRepository;
-        private IScTestSelectionRepository _scTestSelectionRepository;
+        private readonly TestSelectionRepositoryContext _testSelectionRepositoryContext;
+        private IScPanelRepository? _scPanelRepository;
+        private IScTestRepository? _scTestRepository;
+        private IScPanelTestRepository? _scPanelTestRepository;
+        private IScTestSelectionRepository? _scTestSelectionRepository;
         private bool disposed = false;
 
         public TestSelectionRepositoryManager(TestSelectionRepositoryContext testSelectionRepositoryContext)
