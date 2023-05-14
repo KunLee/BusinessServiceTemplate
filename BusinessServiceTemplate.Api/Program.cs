@@ -73,8 +73,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(settings =>
     {
         settings.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1.0");
-        settings.OAuthClientId(config["Auth0:ClientId"]);
-        settings.OAuthClientSecret(config["Auth0:ClientSecret"]);
+        settings.OAuthClientId(config["Authorization:ClientId"]);
+        settings.OAuthClientSecret(config["Authorization:ClientSecret"]);
         settings.OAuthUsePkce();
     });
 }
