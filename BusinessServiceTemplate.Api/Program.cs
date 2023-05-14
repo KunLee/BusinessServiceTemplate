@@ -59,6 +59,7 @@ builder.Services.Configure<LoggingServiceSettings>(config.GetSection("LoggingSer
 builder.Services.ConfigureRepositoryManager(config);
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureMediatR();
+builder.Services.ConfigureAuthoization(config);
 
 // Setup Remote Logging Service
 //builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
@@ -78,6 +79,8 @@ app.UseHttpsRedirection();
 app.UseMiddleware(typeof(HttpContextMiddleware));
 
 app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
