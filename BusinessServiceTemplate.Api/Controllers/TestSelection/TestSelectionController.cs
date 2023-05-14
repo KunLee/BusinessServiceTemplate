@@ -57,7 +57,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <summary>
         /// Add a new Test Panel
         /// </summary>
-        /// <param name="form">The data describing the Panel details</param>
+        /// <param name="requestModel">The data describing the Panel details</param>
         /// <returns>The added Panel object</returns>
         [HttpPost("panels")]
         [Produces("application/json")]
@@ -82,8 +82,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <summary>
         /// Update an existing Test Panel
         /// </summary>
-        /// <param name="id">The ID of the Test Panel</param>
-        /// <param name="form">The data describing the Panel details to update</param>
+        /// <param name="requestModel">The data describing the Panel details to update</param>
         /// <returns>The updated Panel object</returns>
         [HttpPut("panels")]
         [Produces("application/json")]
@@ -264,7 +263,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <summary>
         /// Add a new Test Selection with full details
         /// </summary>
-        /// <param name="form">The data describing the Test Selection details</param>
+        /// <param name="requestModel">The data describing the Test Selection details</param>
         /// <returns>The added Test Selection object</returns>
         [HttpPost("testselections")]
         [Produces("application/json")]
@@ -285,8 +284,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// <summary>
         /// Update an existing Test Selection
         /// </summary>
-        /// <param name="id">The ID of the Test Selection</param>
-        /// <param name="form">The data describing the Test Selection details to update</param>
+        /// <param name="requestModel">The data describing the Test Selection details to update</param>
         /// <returns>The updated Test Selection object</returns>
         [HttpPut("testselections")]
         [Produces("application/json")]

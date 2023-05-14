@@ -60,7 +60,7 @@ builder.Services.ConfigureRepositoryManager(config);
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureMediatR();
 builder.Services.ConfigureAuthoization(config);
-
+builder.Services.ConfigureSwaggerUi(config);
 // Setup Remote Logging Service
 //builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
 
@@ -70,7 +70,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(settings =>
+    {
+        settings.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1.0");
+        settings.OAuthClientId(config["Auth0:ClientId"]);
+        settings.OAuthClientSecret(config["Auth0:ClientSecret"]);
+        settings.OAuthUsePkce();
+    });
 }
 app.UseCors("GLOBAL_CORS_POLICY");
 
