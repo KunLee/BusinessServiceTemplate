@@ -1,7 +1,6 @@
 ﻿using BusinessServiceTemplate.Api.Security;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BusinessServiceTemplate.Api.Extensions
 {
@@ -17,6 +16,7 @@ namespace BusinessServiceTemplate.Api.Extensions
                     Version = "v1.0",
                     Description = ""
                 });
+
                 options.ResolveConflictingActions(x => x.First());
 
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -33,6 +33,7 @@ namespace BusinessServiceTemplate.Api.Extensions
                             AuthorizationUrl = new Uri($"https://{configuration["Authorization:Domain"]}/authorize?audience={configuration["Authorization:Audience"]}&connection_scope=PanelAccess"),
                             Scopes = Enum.GetValues(typeof(SecurityOperation)).Cast<SecurityOperation>().ToDictionary(x => x.ToString(), x => x.ToString())
 
+                            // scopes added here will be used to request the matching scope defined in the authorized App which has been authorized the permissions to the api
                             //Scopes = new Dictionary<string, string>
                             //{
                             //    { $"PanelAccess",

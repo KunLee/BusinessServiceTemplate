@@ -32,7 +32,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(nameof(SecurityOperation.PanelAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<PanelResponseModel>> GetPanel(int id)
         {
             var panel = await _mediator.Send(new GetPanelRequest(id));
