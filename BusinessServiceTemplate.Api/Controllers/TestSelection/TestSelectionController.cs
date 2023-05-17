@@ -11,6 +11,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(nameof(SecurityOperation.FullAccess))]
     public class TestSelectionController : Controller
     {
         private readonly IMediator _mediator;

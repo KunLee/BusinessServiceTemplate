@@ -1,6 +1,7 @@
 ﻿using BusinessServiceTemplate.Api.Security;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BusinessServiceTemplate.Api.Extensions
 {
@@ -17,6 +18,7 @@ namespace BusinessServiceTemplate.Api.Extensions
                     Description = ""
                 });
                 options.ResolveConflictingActions(x => x.First());
+
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
@@ -25,15 +27,16 @@ namespace BusinessServiceTemplate.Api.Extensions
                     Scheme = "bearer",
                     Flows = new OpenApiOAuthFlows
                     {
-                        Implicit = new OpenApiOAuthFlow
+                        AuthorizationCode = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri($"https://{configuration["Authorization:Domain"]}/oauth/token"),
-                            AuthorizationUrl = new Uri($"https://{configuration["Authorization:Domain"]}/authorize?audience={configuration["Authorization:Audience"]}"),
+                            AuthorizationUrl = new Uri($"https://{configuration["Authorization:Domain"]}/authorize?audience={configuration["Authorization:Audience"]}&connection_scope=PanelAccess"),
                             Scopes = Enum.GetValues(typeof(SecurityOperation)).Cast<SecurityOperation>().ToDictionary(x => x.ToString(), x => x.ToString())
+
                             //Scopes = new Dictionary<string, string>
                             //{
-                            //    { "FullAccess",
-                            //      "FullAccess"
+                            //    { $"PanelAccess",
+                            //      $"PanelAccess"
                             //    },
                             //}
                         }
