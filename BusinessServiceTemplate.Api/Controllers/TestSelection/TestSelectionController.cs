@@ -6,6 +6,7 @@ using BusinessServiceTemplate.Api.Models.ResponseModels;
 using BusinessServiceTemplate.Core.Requests;
 using Microsoft.AspNetCore.Authorization;
 using BusinessServiceTemplate.Api.Security;
+using BusinessServiceTemplate.Core.Dtos;
 
 namespace BusinessServiceTemplate.Api.Controllers.TestSelection
 {
@@ -359,6 +360,101 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
             });
 
             return panelTest == null ? NotFound() : _mapper.Map<PanelTestResponseModel>(panelTest);
+        }
+
+        /// <summary>
+        /// Get All of the Currencies
+        /// </summary>
+        /// <returns>The list of the Currencies</returns>
+        [HttpGet("currencies")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(nameof(SecurityOperation.ReadAccess))]
+        public async Task<IList<CurrencyResponseModel>> GetAllCurrencies()
+        {
+            var list = await _mediator.Send(new GetAllCurrenciesRequest());
+            return list.Select(_mapper.Map<CurrencyResponseModel>).ToList();
+        }
+
+        /// <summary>
+        /// Get a specific Currency by Id
+        /// </summary>
+        /// <returns>A specific Currency returned</returns>
+        [HttpGet("currencies/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(nameof(SecurityOperation.ReadAccess))]
+        public async Task<ActionResult<CurrencyResponseModel>> GetCurrency(int id)
+        {
+            var currency = await _mediator.Send(new GetCurrencyRequest(id));
+
+            return currency == null ? NotFound() : _mapper.Map<CurrencyResponseModel>(currency);
+        }
+
+        /// <summary>
+        /// Add a new Currency with full details
+        /// </summary>
+        /// <param name="requestModel">The data describing the Currency details</param>
+        /// <returns>The added Currency object</returns>
+        [HttpPost("currencies")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [Authorize(nameof(SecurityOperation.WriteAccess))]
+        public async Task<ActionResult<CurrencyResponseModel>> AddCurrency([FromBody] CreateCurrencyRequestModel requestModel)
+        {
+            var currencyDto = await _mediator.Send(new CreateCurrencyRequest()
+            {
+                Name = requestModel.Name,
+                Country = requestModel.Country,
+                Symbol = requestModel.Symbol,
+                Shortcode = requestModel.Shortcode,
+                Active= requestModel.Active
+            });
+            return CreatedAtAction(nameof(GetCurrency), new { id = currencyDto.Id }, _mapper.Map<CurrencyResponseModel>(currencyDto));
+        }
+
+        /// <summary>
+        /// Update an existing Currency
+        /// </summary>
+        /// <param name="requestModel">The data describing the Currency details to update</param>
+        /// <returns>The updated Currency object</returns>
+        [HttpPut("currencies")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(nameof(SecurityOperation.WriteAccess))]
+        public async Task<ActionResult<CurrencyResponseModel>> UpdateCurrency([FromBody] UpdateCurrencyRequestModel requestModel)
+        {
+            var currencyDto = await _mediator.Send(new UpdateCurrencyRequest()
+            {
+                Id = requestModel.Id,
+                Name = requestModel.Name,
+                Country = requestModel.Country,
+                Shortcode = requestModel.Shortcode,
+                Symbol = requestModel.Symbol,
+                Active = requestModel.Active
+            });
+            return currencyDto == null ? NotFound() : CreatedAtAction(nameof(GetCurrency), new { id = currencyDto.Id }, _mapper.Map<CurrencyResponseModel>(currencyDto));
+        }
+
+        /// <summary>
+        /// Deletes an existing Currency
+        /// </summary>
+        /// <param name="id">The ID of the Currency to delete</param>
+        [HttpDelete("currencies/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(nameof(SecurityOperation.WriteAccess))]
+        public async Task<ActionResult<CurrencyResponseModel>> DeleteCurrency(int id)
+        {
+            var currency = await _mediator.Send(
+                        new DeleteCurrencyRequest
+                        {
+                            Id = id
+                        });
+
+            return currency == null ? NotFound() : _mapper.Map<CurrencyResponseModel>(currency);
         }
     }
 }

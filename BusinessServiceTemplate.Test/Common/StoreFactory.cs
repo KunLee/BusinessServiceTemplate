@@ -327,5 +327,49 @@ namespace BusinessServiceTemplate.Test.Common
                 Visibility= false,
             },
         };
+
+        public static List<SC_Currency> CurrencyStore = new()
+        {
+            new SC_Currency{ 
+                Id= 1,
+                Name = "Currency 1",
+                Country = "Country 1",
+                Shortcode= "Shortcode 1",
+                Symbol= "Symbol 1",
+                Active= true
+            },
+            new SC_Currency{
+                Id= 2,
+                Name = "Currency 2",
+                Country = "Country 2",
+                Shortcode= "Shortcode 2",
+                Symbol= "Symbol 2",
+                Active= true
+            },
+            new SC_Currency{
+                Id= 3,
+                Name = "Currency 3",
+                Country = "Country 3",
+                Shortcode= "Shortcode 3",
+                Symbol= "Symbol 3",
+                Active= true
+            },
+            new SC_Currency{
+                Id= 4,
+                Name = "Currency Duplicate",
+                Country = "Country Duplicate",
+                Shortcode = "Shortcode Duplicate",
+                Symbol = "Symbol Duplicate",
+                Active = true
+            },
+            new SC_Currency{
+                Id= 5,
+                Name = "Currency For Delete",
+                Country = "Country For Delete",
+                Shortcode= "Shortcode For Delete",
+                Symbol= "Symbol For Delete",
+                Active = true
+            }
+        };
     }
 }

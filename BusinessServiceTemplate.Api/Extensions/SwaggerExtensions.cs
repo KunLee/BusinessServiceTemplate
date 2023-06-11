@@ -30,7 +30,7 @@ namespace BusinessServiceTemplate.Api.Extensions
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri($"https://{configuration["Authorization:Domain"]}/oauth/token"),
-                            AuthorizationUrl = new Uri($"https://{configuration["Authorization:Domain"]}/authorize?audience={configuration["Authorization:Audience"]}&connection_scope=PanelAccess"),
+                            AuthorizationUrl = new Uri($"https://{configuration["Authorization:Domain"]}/authorize?audience={configuration["Authorization:Audience"]}"),
                             Scopes = Enum.GetValues(typeof(SecurityOperation)).Cast<SecurityOperation>().ToDictionary(x => x.ToString(), x => x.ToString())
 
                             // scopes added here will be used to request the matching scope defined in the authorized App which has been authorized the permissions to the api

@@ -12,6 +12,7 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
         }
         public DbSet<SC_Panel_Test> SC_Panel_Tests { get; set; }
         public DbSet<SC_Panel> SC_Panels { get; set; }
+        public DbSet<SC_Currency> SC_Currencies { get; set; }
         public DbSet<SC_Test> SC_Tests { get; set; }
         public DbSet<SC_TestSelection> SC_TestSelections { get; set; }
 

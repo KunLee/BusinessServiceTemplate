@@ -75,6 +75,45 @@ namespace BusinessServiceTemplate.DataAccess.Extensions
                     SpecialityId = 2
                 }
            );
+
+            modelBuilder.Entity<SC_Currency>()
+                .HasData(new SC_Currency
+                {
+                    Id = 1,
+                    Name = "Currency 1",
+                    Country = "Euro",
+                    Symbol = "€",
+                    Active= true,
+                    Shortcode = "EUR"
+                },
+                new SC_Currency
+                {
+                    Id = 2,
+                    Name = "Currency 2",
+                    Country = "USA",
+                    Symbol = "$",
+                    Active = true,
+                    Shortcode = "USD"
+                },
+                new SC_Currency
+                {
+                    Id = 3,
+                    Name = "Currency 3",
+                    Country = "China",
+                    Symbol = "¥",
+                    Active = true,
+                    Shortcode = "CNY"
+                },
+                new SC_Currency
+                {
+                    Id = 4,
+                    Name = "Currency 4",
+                    Country = "Australia",
+                    Symbol = "$",
+                    Active = true,
+                    Shortcode = "AUD"
+                }
+           );
         }
     }
 }

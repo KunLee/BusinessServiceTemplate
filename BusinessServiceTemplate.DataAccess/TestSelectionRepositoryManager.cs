@@ -10,6 +10,7 @@ namespace BusinessServiceTemplate.DataAccess
         private IScPanelRepository? _scPanelRepository;
         private IScTestRepository? _scTestRepository;
         private IScPanelTestRepository? _scPanelTestRepository;
+        private IScCurrencyRepository? _scCurrencyRepository;
         private IScTestSelectionRepository? _scTestSelectionRepository;
         private bool disposed = false;
 
@@ -51,6 +52,15 @@ namespace BusinessServiceTemplate.DataAccess
             {
                 _scTestSelectionRepository ??= new ScTestSelectionRepository(_testSelectionRepositoryContext);
                 return _scTestSelectionRepository;
+            }
+        }
+
+        public IScCurrencyRepository ScCurrencyRepository
+        {
+            get
+            {
+                _scCurrencyRepository ??= new ScCurrencyRepository(_testSelectionRepositoryContext);
+                return _scCurrencyRepository;
             }
         }
 

@@ -13,6 +13,10 @@ namespace BusinessServiceTemplate.Api.Security
         [EnumMetadata("Tests access roles", "Access to Test APIs")]
         TestAccess = 4,
         [EnumMetadata("TestSelection access roles", "Access to Test Selection APIs")]
-        TestSelectionAccess = 5
+        TestSelectionAccess = 5,
+        [EnumMetadata("Write access permission", "Write access to Test Selection APIs")]
+        WriteAccess = 6,
+        [EnumMetadata("Read access permission", "Read access to Test Selection APIs")]
+        ReadAccess = 7,
     }
 }
