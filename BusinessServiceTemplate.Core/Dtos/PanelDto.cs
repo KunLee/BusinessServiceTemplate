@@ -9,6 +9,7 @@
         public decimal? Price { set; get; }
         public bool? PriceVisibility { set; get; }
         public int TestSelectionId { get; set; }
+        public CurrencyDto? Currency { get; set; }
         public bool? Visibility { set; get; }
         public List<TestDto> Tests { get; } = new();
     }

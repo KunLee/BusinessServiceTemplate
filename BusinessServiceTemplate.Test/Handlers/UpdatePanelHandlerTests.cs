@@ -16,6 +16,7 @@ namespace BusinessServiceTemplate.Test.Handlers
         private List<SC_Panel> _panelStore;
         private List<SC_Test> _testStore;
         private List<SC_TestSelection> _testSelectionStore;
+        private List<SC_Currency> _currencyStore;
         private readonly MapperConfiguration _autoMapperConfiguration;
 
         public UpdatePanelHandlerTests()
@@ -24,11 +25,13 @@ namespace BusinessServiceTemplate.Test.Handlers
             {
                 cfg.AddProfile<PanelDataToDomainMapper>();
                 cfg.AddProfile<TestDataToDomainMapper>();
+                cfg.AddProfile<CurrencyDataToDomainMapper>();
             });
 
             _panelStore = StoreFactory.PanelStore;
             _testStore = StoreFactory.TestStore;
             _testSelectionStore = StoreFactory.TestSelectionStore;
+            _currencyStore = StoreFactory.CurrencyStore;
         }
 
         [Fact]
@@ -38,6 +41,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             var scPanelRepositoryMock = new Mock<IScPanelRepository>();
             var scTestRepositoryMock = new Mock<IScTestRepository>();
             var scTestSelectionRepositoryMock = new Mock<IScTestSelectionRepository>();
+            var scCurrencyRepositoryMock = new Mock<IScCurrencyRepository>();
 
             // Setup
             scPanelRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
@@ -48,7 +52,10 @@ namespace BusinessServiceTemplate.Test.Handlers
 
             scTestSelectionRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
                 .Returns((int p) => Task.FromResult(_testSelectionStore.Find(x => x.Id == p))).Verifiable();
-            
+
+            scCurrencyRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
+                .Returns((int p) => Task.FromResult(_currencyStore.Find(x => x.Id == p))).Verifiable();
+
             scPanelRepositoryMock.Setup(m => m.Update(It.IsAny<SC_Panel>()))
                 .Returns((SC_Panel p) => 
                 {
@@ -61,6 +68,7 @@ namespace BusinessServiceTemplate.Test.Handlers
                     panelToUpdate.Visibility= p.Visibility;
                     panelToUpdate.DescriptionVisibility = p.DescriptionVisibility;
                     panelToUpdate.TestSelectionId = p.TestSelectionId;
+                    panelToUpdate.CurrencyId = p.CurrencyId;
                     panelToUpdate.Tests = p.Tests;
                     return Task.FromResult(p);
 
@@ -71,6 +79,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             unitOfWorkMock.Setup(m => m.ScPanelRepository).Returns(scPanelRepositoryMock.Object);
             unitOfWorkMock.Setup(m => m.ScTestRepository).Returns(scTestRepositoryMock.Object);
             unitOfWorkMock.Setup(m => m.ScTestSelectionRepository).Returns(scTestSelectionRepositoryMock.Object);
+            unitOfWorkMock.Setup(m => m.ScCurrencyRepository).Returns(scCurrencyRepositoryMock.Object);
 
             var autoMapper = _autoMapperConfiguration.CreateMapper();
 
@@ -86,6 +95,7 @@ namespace BusinessServiceTemplate.Test.Handlers
                 PriceVisibility = false,
                 TestIds = new List<int> { 2 },
                 TestSelectionId = 2,
+                CurrencyId = 3,
                 Visibility = false
             };
 
@@ -97,6 +107,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             var oldPriceVisibility = oldObject?.PriceVisibility;
             var oldVisibility = oldObject?.Visibility;
             var oldTestSelectionId = oldObject?.TestSelectionId;
+            var oldCurrencyId = oldObject?.CurrencyId;
             var oldTests = oldObject?.Tests;
 
             var result = await updateHandler.Handle(request, CancellationToken.None);
@@ -111,6 +122,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             verifiedObject?.PriceVisibility.Should().Be(request.PriceVisibility);
             verifiedObject?.Visibility.Should().Be(request.Visibility);
             verifiedObject?.TestSelection.Id.Should().Be(request.TestSelectionId);
+            verifiedObject?.Currency?.Id.Should().Be(request.CurrencyId);
 
             verifiedObject?.Name.Should().NotBe(oldName);
             verifiedObject?.Tests.Select(x => x.Id).SequenceEqual(oldTests!.Select(o => o.Id)).Should().BeFalse();
@@ -118,11 +130,13 @@ namespace BusinessServiceTemplate.Test.Handlers
             verifiedObject?.PriceVisibility.Should().NotBe(oldPriceVisibility);
             verifiedObject?.Visibility.Should().NotBe(oldVisibility);
             verifiedObject?.TestSelection.Id.Should().NotBe(oldTestSelectionId);
+            verifiedObject?.Currency?.Id.Should().NotBe(oldCurrencyId);
 
             scPanelRepositoryMock.Verify(m => m.Update(It.IsAny<SC_Panel>()), Times.Once);
             scPanelRepositoryMock.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
             scTestRepositoryMock.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
             scTestSelectionRepositoryMock.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
+            scCurrencyRepositoryMock.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("panels")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<PanelResponseModel>))]
-        [Authorize(nameof(SecurityOperation.PanelAccess))]
+        [Authorize(nameof(SecurityOperation.ReadAccess))]
         public async Task<IList<PanelResponseModel>> GetAllPanels() 
         {
             var allPanels = await _mediator.Send(new GetAllPanelsRequest());
@@ -74,6 +74,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 PriceVisibility = requestModel.PriceVisibility,
                 DescriptionVisibility = requestModel.DescriptionVisibility,
                 TestSelectionId = requestModel.TestSelectionId,
+                CurrencyId= requestModel.CurrencyId,
                 TestIds= requestModel.TestIds,
                 Visibility = requestModel.Visibility
             });
@@ -90,7 +91,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(nameof(SecurityOperation.PanelAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<PanelResponseModel>> UpdatePanel([FromBody] UpdatePanelRequestModel requestModel)
         {
             var panelDto = await _mediator.Send(new UpdatePanelRequest()
@@ -101,6 +102,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 DescriptionVisibility = requestModel.DescriptionVisibility,
                 PriceVisibility = requestModel.PriceVisibility,
                 TestSelectionId = requestModel.TestSelectionId,
+                CurrencyId= requestModel.CurrencyId,
                 Price = requestModel.Price,
                 TestIds = requestModel.TestIds,
                 Visibility = requestModel.Visibility

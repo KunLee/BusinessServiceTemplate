@@ -18,6 +18,7 @@ namespace BusinessServiceTemplate.Test.Handlers
     {
         private List<SC_Panel> _panelStore;
         private List<SC_Test> _testStore;
+        private List<SC_Currency> _currencyStore;
         private List<SC_TestSelection> _testSelectionStore;
         private IdGenerator _idGenerator;
         private readonly MapperConfiguration _autoMapperConfiguration;
@@ -30,10 +31,12 @@ namespace BusinessServiceTemplate.Test.Handlers
             {
                 cfg.AddProfile<PanelDataToDomainMapper>();
                 cfg.AddProfile<TestDataToDomainMapper>();
+                cfg.AddProfile<CurrencyDataToDomainMapper>();
             });
 
             _panelStore = StoreFactory.PanelStore;
             _testStore = StoreFactory.TestStore;
+            _currencyStore = StoreFactory.CurrencyStore;
             _testSelectionStore = StoreFactory.TestSelectionStore;
         }
 
@@ -43,6 +46,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             // Mock
             var scPanelRepositoryMock = new Mock<IScPanelRepository>();
             var scTestRepositoryMock = new Mock<IScTestRepository>();
+            var scCurrencyRepositoryMock = new Mock<IScCurrencyRepository>();
             var scTestSelectionRepositoryMock = new Mock<IScTestSelectionRepository>();
 
             // Setup
@@ -54,7 +58,10 @@ namespace BusinessServiceTemplate.Test.Handlers
 
             scTestSelectionRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
                 .Returns((int p) => Task.FromResult(_testSelectionStore.Find(x => x.Id == p))).Verifiable();
-            
+
+            scCurrencyRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
+                .Returns((int p) => Task.FromResult(_currencyStore.Find(x => x.Id == p))).Verifiable();
+
             scPanelRepositoryMock.Setup(m => m.Create(It.IsAny<SC_Panel>()))
                 .Returns((SC_Panel p) => 
                 {
@@ -76,6 +83,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             unitOfWorkMock.Setup(m => m.ScPanelRepository).Returns(scPanelRepositoryMock.Object);
             unitOfWorkMock.Setup(m => m.ScTestRepository).Returns(scTestRepositoryMock.Object);
             unitOfWorkMock.Setup(m => m.ScTestSelectionRepository).Returns(scTestSelectionRepositoryMock.Object);
+            unitOfWorkMock.Setup(m => m.ScCurrencyRepository).Returns(scCurrencyRepositoryMock.Object);
 
             var autoMapper = _autoMapperConfiguration.CreateMapper();
 
@@ -90,6 +98,7 @@ namespace BusinessServiceTemplate.Test.Handlers
                 PriceVisibility = false,
                 TestIds = new List<int> { 1, 2, 3 },
                 TestSelectionId = 1,
+                CurrencyId = 1,
                 Visibility = true
             };
 
@@ -105,6 +114,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             verifiedObject.PriceVisibility.Should().Be(request.PriceVisibility);
             verifiedObject.Visibility.Should().Be(request.Visibility);
             verifiedObject.TestSelection.Id.Should().Be(request.TestSelectionId);
+            verifiedObject.Currency!.Id.Should().Be(request.CurrencyId);
 
             scPanelRepositoryMock.Verify(m => m.Create(It.IsAny<SC_Panel>()), Times.Once);
             scPanelRepositoryMock.Verify(m => m.FindByCondition(It.IsAny<Expression<Func<SC_Panel, bool>>>(), true), Times.Once);
@@ -117,6 +127,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             var scPanelRepositoryMock = new Mock<IScPanelRepository>();
             var scTestRepositoryMock = new Mock<IScTestRepository>();
             var scTestSelectionRepositoryMock = new Mock<IScTestSelectionRepository>();
+            var scCurrencyRepositoryMock = new Mock<IScCurrencyRepository>();
 
             // Setup
             scPanelRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
@@ -127,6 +138,9 @@ namespace BusinessServiceTemplate.Test.Handlers
 
             scTestSelectionRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
                 .Returns((int p) => Task.FromResult(_testSelectionStore.Find(x => x.Id == p))).Verifiable();
+
+            scCurrencyRepositoryMock.Setup(m => m.Find(It.IsAny<int>()))
+                .Returns((int p) => Task.FromResult(_currencyStore.Find(x => x.Id == p))).Verifiable();
 
             scPanelRepositoryMock.Setup(m => m.Create(It.IsAny<SC_Panel>()))
                 .Returns((SC_Panel p) =>
@@ -149,6 +163,7 @@ namespace BusinessServiceTemplate.Test.Handlers
             unitOfWorkMock.Setup(m => m.ScPanelRepository).Returns(scPanelRepositoryMock.Object);
             unitOfWorkMock.Setup(m => m.ScTestRepository).Returns(scTestRepositoryMock.Object);
             unitOfWorkMock.Setup(m => m.ScTestSelectionRepository).Returns(scTestSelectionRepositoryMock.Object);
+            unitOfWorkMock.Setup(m => m.ScCurrencyRepository).Returns(scCurrencyRepositoryMock.Object);
 
             var autoMapper = _autoMapperConfiguration.CreateMapper();
 
@@ -162,6 +177,7 @@ namespace BusinessServiceTemplate.Test.Handlers
                 Price = 10.01m,
                 PriceVisibility = true,
                 TestSelectionId = 1,
+                CurrencyId = 1,
                 Visibility = true,
                 TestIds = new List<int> { 1 }
             };

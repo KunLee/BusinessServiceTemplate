@@ -11,6 +11,8 @@ namespace BusinessServiceTemplate.DataAccess.Entities
         public bool? DescriptionVisibility { set; get; }
         public decimal? Price { set; get; }
         public bool? PriceVisibility { set; get; }
+        public int? CurrencyId { get; set; }
+        public SC_Currency? Currency { set; get; }
         public int TestSelectionId { get; set; } // Required foreign key property for reference navigation
 
         [Required(ErrorMessage = "TestSelection is required.")]

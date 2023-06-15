@@ -62,6 +62,19 @@ namespace BusinessServiceTemplate.Core.Handlers
                 throw new ValidationException(ConstantStrings.INVALID_REQUEST_DATA);
             }
 
+            // Validate the Currency Id
+            SC_Currency? currency = null;
+
+            if (request.CurrencyId.HasValue) 
+            {
+                currency = await _testSelectionRepositoryManager.ScCurrencyRepository.Find(request.CurrencyId);
+
+                if (currency is null)
+                {
+                    throw new ValidationException(ConstantStrings.INVALID_REQUEST_DATA);
+                }
+            }
+
             // Validate Duplicate records
             var panels = await _testSelectionRepositoryManager.ScPanelRepository
                     .FindByCondition(x => x.Name.Equals(request.Name) &&
@@ -94,6 +107,7 @@ namespace BusinessServiceTemplate.Core.Handlers
                 PriceVisibility = request.PriceVisibility,
                 Price = request.Price,
                 TestSelection = testSelection,
+                Currency = currency,
                 Tests = sC_Tests,
                 Visibility = request.Visibility
             };

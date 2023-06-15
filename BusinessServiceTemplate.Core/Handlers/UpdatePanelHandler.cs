@@ -67,12 +67,26 @@ namespace BusinessServiceTemplate.Core.Handlers
                 throw new ValidationException(ConstantStrings.INVALID_REQUEST_DATA);
             }
 
+            // Validate the Currency Id
+            SC_Currency? currency = null;
+
+            if (request.CurrencyId.HasValue)
+            {
+                currency = await _testSelectionRepositoryManager.ScCurrencyRepository.Find(request.CurrencyId);
+
+                if (currency is null)
+                {
+                    throw new ValidationException(ConstantStrings.INVALID_REQUEST_DATA);
+                }
+            }
+
             recordFound.Name = request.Name;
             recordFound.Description = request.Description;
             recordFound.DescriptionVisibility = request.DescriptionVisibility;
             recordFound.Price = request.Price;
             recordFound.PriceVisibility = request.PriceVisibility;
             recordFound.TestSelection = testSelection;
+            recordFound.Currency = currency;
             recordFound.Tests = sC_Tests;
             recordFound.Visibility = request.Visibility;
 

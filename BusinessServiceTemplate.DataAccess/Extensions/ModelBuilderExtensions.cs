@@ -33,7 +33,8 @@ namespace BusinessServiceTemplate.DataAccess.Extensions
                     DescriptionVisibility = true,
                     Price = new decimal(10.01),
                     PriceVisibility= true,
-                    TestSelectionId = 2
+                    TestSelectionId = 2,
+                    CurrencyId= 1
                 },
                 new SC_Panel
                 {
@@ -43,7 +44,8 @@ namespace BusinessServiceTemplate.DataAccess.Extensions
                     DescriptionVisibility = true,
                     Price = new decimal(20.01),
                     PriceVisibility = true,
-                    TestSelectionId= 1
+                    TestSelectionId= 1,
+                    CurrencyId = 2
                 },
                 new SC_Panel
                 {
@@ -53,7 +55,8 @@ namespace BusinessServiceTemplate.DataAccess.Extensions
                     DescriptionVisibility = true,
                     Price = new decimal(30.01),
                     PriceVisibility = true,
-                    TestSelectionId = 1
+                    TestSelectionId = 1,
+                    CurrencyId = 3
                 }
            );
 

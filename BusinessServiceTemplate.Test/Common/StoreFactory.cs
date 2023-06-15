@@ -14,6 +14,7 @@ namespace BusinessServiceTemplate.Test.Common
                 Price = 10.01m,
                 PriceVisibility= true,
                 TestSelectionId= 1,
+                CurrencyId = 1,
                 Visibility= true,
                 Tests = new List<SC_Test>{
                     new SC_Test {
@@ -33,6 +34,7 @@ namespace BusinessServiceTemplate.Test.Common
                 Price = 20.01m,
                 PriceVisibility= true,
                 TestSelectionId= 2,
+                CurrencyId = 2,
                 Visibility= true,
                 Tests = new List<SC_Test>{
                     new SC_Test {
@@ -66,6 +68,7 @@ namespace BusinessServiceTemplate.Test.Common
                 Price = 30.01m,
                 PriceVisibility= true,
                 TestSelectionId= 3,
+                CurrencyId = 3,
                 Visibility= true,
                 Tests = new List<SC_Test>{
                     new SC_Test {
@@ -85,6 +88,7 @@ namespace BusinessServiceTemplate.Test.Common
                 Price = 10.01m,
                 PriceVisibility= true,
                 TestSelectionId= 1,
+                CurrencyId = 4,
                 Visibility= true,
                 Tests = new List<SC_Test>{
                     new SC_Test {
@@ -104,6 +108,7 @@ namespace BusinessServiceTemplate.Test.Common
                 Price = 10.01m,
                 PriceVisibility= true,
                 TestSelectionId= 1,
+                CurrencyId = 3,
                 Visibility= true,
                 Tests = new List<SC_Test>{
                     new SC_Test {

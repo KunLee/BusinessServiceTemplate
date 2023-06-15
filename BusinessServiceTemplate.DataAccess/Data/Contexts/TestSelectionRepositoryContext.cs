@@ -39,6 +39,12 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
                 .HasForeignKey(e => e.TestSelectionId)
                 .IsRequired();
 
+            modelBuilder.Entity<SC_Currency>()
+               .HasMany(e => e.Panels)
+               .WithOne(e => e.Currency)
+               .HasForeignKey(e => e.CurrencyId)
+               .IsRequired(false);
+
             // Seed mock data
             modelBuilder.Seed();
         }

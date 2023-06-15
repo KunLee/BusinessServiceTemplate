@@ -10,6 +10,7 @@ namespace BusinessServiceTemplate.Api.Models.RequestModels
         public decimal? Price { set; get; }
         public bool? PriceVisibility { set; get; }
         public int TestSelectionId { get; set; }
+        public int? CurrencyId { get; set; }
         public List<int>? TestIds { set; get; }
         public bool? Visibility { set; get; }
     }
