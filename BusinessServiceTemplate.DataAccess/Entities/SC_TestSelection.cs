@@ -15,5 +15,8 @@ namespace BusinessServiceTemplate.DataAccess.Entities
         public int SpecialityId { set; get; }
 
         public virtual List<SC_Panel> Panels { get; } = new(); // Collection navigation containing dependent panels
+
+        // IsDeleted Flag used for Soft Delete of TestSelection Entity
+        public bool IsDeleted { set; get; } = false;
     }
 }

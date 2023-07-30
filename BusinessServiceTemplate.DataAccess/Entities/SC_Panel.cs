@@ -19,5 +19,8 @@ namespace BusinessServiceTemplate.DataAccess.Entities
         public SC_TestSelection TestSelection { get; set; } = null!; // Required reference navigation to principal
         public virtual List<SC_Test> Tests { set; get; } = new();
         public bool? Visibility { set; get; }
+
+        // IsDeleted Flag used for Soft Delete of Panel Entity
+        public bool IsDeleted { set; get; } = false;
     }
 }

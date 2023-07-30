@@ -1,6 +1,7 @@
 ﻿using BusinessServiceTemplate.DataAccess.Entities;
 using BusinessServiceTemplate.DataAccess.Extensions;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BusinessServiceTemplate.DataAccess.Data.Contexts
 {
@@ -22,6 +23,7 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
             modelBuilder.Entity<SC_Panel_Test>().Property(sc => sc.Visibility);
 
             modelBuilder.Entity<SC_Panel>()
+                .HasQueryFilter(x => !x.IsDeleted)
                 .HasMany(x => x.Tests)
                 .WithMany(x => x.Panels)
                 .UsingEntity<SC_Panel_Test>(
@@ -33,7 +35,10 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
                         new { Id = 4, PanelId = 1, TestId = 2, Visibility = false }
                 });
 
+            modelBuilder.Entity<SC_Test>().HasQueryFilter(x => !x.IsDeleted);
+
             modelBuilder.Entity<SC_TestSelection>()
+                .HasQueryFilter(x => !x.IsDeleted)
                 .HasMany(e => e.Panels)
                 .WithOne(e => e.TestSelection)
                 .HasForeignKey(e => e.TestSelectionId)
@@ -47,6 +52,38 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
 
             // Seed mock data
             modelBuilder.Seed();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            HandleSoftDelete();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void HandleSoftDelete() 
+        {
+            var entities = ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
+
+            foreach (var entity in entities) 
+            {
+                switch (entity.Entity) 
+                {
+                    case SC_Test test:
+                        entity.State = EntityState.Modified;
+                        test.IsDeleted = true;
+                        break;
+                    case SC_Panel panel:
+                        entity.State = EntityState.Modified;
+                        panel.IsDeleted = true;
+                        break;
+                    case SC_TestSelection testSelection:
+                        entity.State = EntityState.Modified;
+                        testSelection.IsDeleted = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

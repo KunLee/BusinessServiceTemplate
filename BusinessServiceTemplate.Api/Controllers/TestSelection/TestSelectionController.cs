@@ -64,7 +64,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpPost("panels")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [Authorize(nameof(SecurityOperation.PanelAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<PanelResponseModel>> AddPanel([FromBody] CreatePanelRequestModel requestModel)
         {
             var panelDto = await _mediator.Send(new CreatePanelRequest() { 
@@ -119,7 +119,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpDelete("panels/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(nameof(SecurityOperation.PanelAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<PanelResponseModel>> DeletePanel(int id)
         {
             var panel = await _mediator.Send(
@@ -137,7 +137,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpGet("tests")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(nameof(SecurityOperation.TestAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<IList<TestResponseModel>> GetAllTests()
         {
             var list = await _mediator.Send(new GetAllTestsRequest());
@@ -152,7 +152,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(nameof(SecurityOperation.TestAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<TestResponseModel>> GetTest(int id)
         {
             var test = await _mediator.Send(new GetTestRequest(id));
@@ -168,7 +168,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpPost("tests")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [Authorize(nameof(SecurityOperation.TestAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<TestResponseModel>> AddTest([FromBody] CreateTestRequestModel requestModel)
         {
             var testDto = await _mediator.Send(new CreateTestRequest()
@@ -190,7 +190,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(nameof(SecurityOperation.TestAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<TestResponseModel>> UpdateTest([FromBody] UpdateTestRequestModel requestModel)
         {
             var testDto = await _mediator.Send(new UpdateTestRequest()
@@ -211,7 +211,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpDelete("test/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(nameof(SecurityOperation.TestAccess))]
+        [Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<TestResponseModel>> DeleteTest(int id)
         {
             var test = await _mediator.Send(
