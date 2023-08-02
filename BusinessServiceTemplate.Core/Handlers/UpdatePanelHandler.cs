@@ -32,7 +32,8 @@ namespace BusinessServiceTemplate.Core.Handlers
 
         private async Task<SC_Panel> ValidateRequestData(UpdatePanelRequest request)
         {
-            var recordFound = await _testSelectionRepositoryManager.ScPanelRepository.Find(request.Id);
+            // Use FindByIdWithTests instead of Find, otherwise the virtual Tests updates and deletes would have unexpected issues.
+            var recordFound = await _testSelectionRepositoryManager.ScPanelRepository.FindByIdWithTests(request.Id);
 
             if (recordFound == null)
             {
@@ -87,7 +88,12 @@ namespace BusinessServiceTemplate.Core.Handlers
             recordFound.PriceVisibility = request.PriceVisibility;
             recordFound.TestSelection = testSelection;
             recordFound.Currency = currency;
+            //recordFound.Tests.Clear();
             recordFound.Tests = sC_Tests;
+            //foreach (var item in recordFound.Tests) {
+            //    recordFound.Tests.Remove(item);
+            //}
+            //recordFound.Tests.Remove(recordFound.Tests.First());
             recordFound.Visibility = request.Visibility;
 
             return recordFound;

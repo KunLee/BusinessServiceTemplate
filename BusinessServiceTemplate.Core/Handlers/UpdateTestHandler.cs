@@ -32,7 +32,8 @@ namespace BusinessServiceTemplate.Core.Handlers
 
         private async Task<SC_Test> ValidateRequestData(UpdateTestRequest request)
         {
-            var recordFound = await _testSelectionRepositoryManager.ScTestRepository.Find(request.Id);
+            // Use FindByIdWithPanels instead of Find, otherwise the virtual Panels updates and deletes would have unexpected issues.
+            var recordFound = await _testSelectionRepositoryManager.ScTestRepository.FindByIdWithPanels(request.Id);
 
             if (recordFound == null)
             {
