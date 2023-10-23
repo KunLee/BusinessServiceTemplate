@@ -2,6 +2,7 @@ using BusinessServiceTemplate.Api.Enrichers;
 using BusinessServiceTemplate.Api.Extensions;
 using BusinessServiceTemplate.Api.Middlewares;
 using BusinessServiceTemplate.Api.Settings;
+using Microsoft.AspNetCore.OData;
 //using LoggingService.Client.Extensions;
 using Newtonsoft.Json;
 using Serilog;
@@ -39,7 +40,7 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 };
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddOData(options => options.EnableQueryFeatures());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

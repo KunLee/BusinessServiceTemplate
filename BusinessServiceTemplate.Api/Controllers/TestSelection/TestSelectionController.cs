@@ -7,6 +7,7 @@ using BusinessServiceTemplate.Core.Requests;
 using Microsoft.AspNetCore.Authorization;
 using BusinessServiceTemplate.Api.Security;
 using BusinessServiceTemplate.Core.Dtos;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BusinessServiceTemplate.Api.Controllers.TestSelection
 {
@@ -45,6 +46,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         /// Get All of the Test Panels
         /// </summary>
         /// <returns>The list of the panels</returns>
+        [EnableQuery]
         [HttpGet("panels")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<PanelResponseModel>))]
