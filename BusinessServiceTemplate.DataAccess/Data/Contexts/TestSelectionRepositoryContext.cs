@@ -16,6 +16,8 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
         public DbSet<SC_Currency> SC_Currencies { get; set; }
         public DbSet<SC_Test> SC_Tests { get; set; }
         public DbSet<SC_TestSelection> SC_TestSelections { get; set; }
+        public DbSet<SC_MBS> SC_MBS { get; set; }
+        public DbSet<SC_AMA> SC_AMA { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +50,12 @@ namespace BusinessServiceTemplate.DataAccess.Data.Contexts
                .HasMany(e => e.Panels)
                .WithOne(e => e.Currency)
                .HasForeignKey(e => e.CurrencyId)
+               .IsRequired(false);
+
+            modelBuilder.Entity<SC_MBS>()
+               .HasMany(e => e.AustralianMedicalAssociations)
+               .WithOne(e => e.MedibankSchedule)
+               .HasForeignKey(e => e.MedicareItem)
                .IsRequired(false);
 
             // Seed mock data

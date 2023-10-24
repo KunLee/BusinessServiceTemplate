@@ -22,6 +22,32 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_AMA", b =>
+                {
+                    b.Property<string>("AMACode")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("AMAFee")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("MedicareItem")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("ScheduleFee")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("AMACode");
+
+                    b.HasIndex("MedicareItem");
+
+                    b.ToTable("SC_AMA");
+                });
+
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Currency", b =>
                 {
                     b.Property<int>("Id")
@@ -87,6 +113,121 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                             Shortcode = "AUD",
                             Symbol = "$"
                         });
+                });
+
+            modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_MBS", b =>
+                {
+                    b.Property<int>("ItemNum")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ItemNum"));
+
+                    b.Property<string>("AnaesChange")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("BasicUnits")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("Benefit100")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("BenefitStartDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BenefitType")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Category")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DescriptionStartDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DescriptorChange")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EMSNCap")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EMSNChange")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EMSNChangeDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EMSNDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EMSNEndDate")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("EMSNFixedCapAmount")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("EMSNMaximumCap")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("EMSNPercentageCap")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("EMSNStartDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FeeChange")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FeeStartDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FeeType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Group")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ItemChange")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ItemEndDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ItemStartDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ItemType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NewItem")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("QFEEndDate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("QFEStartDate")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("ScheduleFee")
+                        .HasColumnType("double precision");
+
+                    b.Property<int?>("SubGroup")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SubHeading")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SubItemNum")
+                        .HasColumnType("text");
+
+                    b.HasKey("ItemNum");
+
+                    b.ToTable("SC_MBS");
                 });
 
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Panel", b =>
@@ -321,6 +462,15 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_AMA", b =>
+                {
+                    b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_MBS", "MedibankSchedule")
+                        .WithMany("AustralianMedicalAssociations")
+                        .HasForeignKey("MedicareItem");
+
+                    b.Navigation("MedibankSchedule");
+                });
+
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Panel", b =>
                 {
                     b.HasOne("BusinessServiceTemplate.DataAccess.Entities.SC_Currency", "Currency")
@@ -360,6 +510,11 @@ namespace BusinessServiceTemplate.Database.Migrator.Migrations
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_Currency", b =>
                 {
                     b.Navigation("Panels");
+                });
+
+            modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_MBS", b =>
+                {
+                    b.Navigation("AustralianMedicalAssociations");
                 });
 
             modelBuilder.Entity("BusinessServiceTemplate.DataAccess.Entities.SC_TestSelection", b =>

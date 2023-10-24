@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using BusinessServiceTemplate.Api.Security;
 using BusinessServiceTemplate.Core.Dtos;
 using Microsoft.AspNetCore.OData.Query;
+using BusinessServiceTemplate.Shared.Common;
 
 namespace BusinessServiceTemplate.Api.Controllers.TestSelection
 {
@@ -459,6 +460,52 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                         });
 
             return currency == null ? NotFound() : _mapper.Map<CurrencyResponseModel>(currency);
+        }
+
+        /// <summary>
+        /// Import Data from an excel file
+        /// </summary>
+        /// <returns>Ok or list of errors</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("import/{type}")]
+        public async Task<IActionResult> ImportConsumables(ImportExportDataType type, IFormFile excelFile)
+        {
+            if (excelFile == null || excelFile.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            if (Path.GetExtension(excelFile.FileName).ToLower() != ".xlsx")
+                return BadRequest("Please upload a valid Excel file.");
+
+            if (type == 0)
+                return BadRequest("Please supply a type.");
+
+            var errors = await _mediator.Send(new ImportExcelRequest(type, excelFile));
+
+            if (errors.Count > 0)
+                return BadRequest(errors);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Export data to an excel file
+        /// </summary>
+        /// <returns>Excel File Stream</returns>
+        [HttpGet("export/{type}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ExportConsumables(ImportExportDataType type)
+        {
+            if (type == 0)
+                return BadRequest("Please supply team id.");
+
+            var fileMemoryStream = await _mediator.Send(new ExportExcelDataRequest(type));
+
+            if (fileMemoryStream == null)
+                return BadRequest();
+
+            return File(fileMemoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export.xlsx");
         }
     }
 }

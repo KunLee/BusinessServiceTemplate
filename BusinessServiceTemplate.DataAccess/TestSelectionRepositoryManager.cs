@@ -1,6 +1,7 @@
 ﻿using BusinessServiceTemplate.DataAccess.Data.Contexts;
 using BusinessServiceTemplate.DataAccess.Data.Repositories.Interfaces;
 using BusinessServiceTemplate.DataAccess.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessServiceTemplate.DataAccess
 {
@@ -12,11 +13,21 @@ namespace BusinessServiceTemplate.DataAccess
         private IScPanelTestRepository? _scPanelTestRepository;
         private IScCurrencyRepository? _scCurrencyRepository;
         private IScTestSelectionRepository? _scTestSelectionRepository;
+        private IScMbsRepository? _scMbsRepository;
+        private IScAmaRepository? _scAmaRepository;
         private bool disposed = false;
 
         public TestSelectionRepositoryManager(TestSelectionRepositoryContext testSelectionRepositoryContext)
         {
             _testSelectionRepositoryContext = testSelectionRepositoryContext;
+        }
+
+        public DbContext DbContext
+        {
+            get
+            {
+                return _testSelectionRepositoryContext;
+            }
         }
 
         public IScPanelRepository ScPanelRepository
@@ -64,6 +75,23 @@ namespace BusinessServiceTemplate.DataAccess
             }
         }
 
+        public IScMbsRepository ScMbsRepository
+        {
+            get
+            {
+                _scMbsRepository ??= new ScMbsRepository(_testSelectionRepositoryContext);
+                return _scMbsRepository;
+            }
+        }
+
+        public IScAmaRepository ScAmaRepository
+        {
+            get
+            {
+                _scAmaRepository ??= new ScAmaRepository(_testSelectionRepositoryContext);
+                return _scAmaRepository;
+            }
+        }
         public async Task Save() => await _testSelectionRepositoryContext.SaveChangesAsync();
 
         protected virtual void Dispose(bool disposing)
