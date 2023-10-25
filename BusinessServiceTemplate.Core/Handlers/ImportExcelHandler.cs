@@ -7,7 +7,10 @@ using BusinessServiceTemplate.DataAccess.Entities;
 using BusinessServiceTemplate.Shared.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
+using System.Runtime.Intrinsics.X86;
+using System.Xml;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -40,11 +43,12 @@ namespace BusinessServiceTemplate.Core.Handlers
 
             return null;
         }
+
         private async Task<List<ImportErrorResponseDto>> AmaValidateAndProcessing(IFormFile file) 
         {
             var validationErrors = new List<ImportErrorResponseDto>();
 
-            var amaList = await _importExportService.ImportExcelFile(file, (excelRow, headers) =>
+            var amaList = await _importExportService.ImportExcelFile(file, async (excelRow, headers) =>
             {
                 var ama = new AmaDto
                 {
@@ -54,6 +58,9 @@ namespace BusinessServiceTemplate.Core.Handlers
                     MedicareItem = ValidateIntegerFromCell(excelRow, headers, "Medicare Item", validationErrors),
                     ScheduleFee = ValidateDecimalFromCell(excelRow, headers, "Schedule Fee", validationErrors)
                 };
+
+                await ValidateMedicareItem(excelRow, ama, validationErrors);
+
                 return ama;
             });
 
@@ -65,20 +72,18 @@ namespace BusinessServiceTemplate.Core.Handlers
 
             var amaEntities = amaQuery.ToList();
 
-            var amaToUpdate = amaEntities.IntersectBy(mappedAmaList.Select(x => x.AMACode), mbs => mbs.AMACode);
-
             var amaToCreate = mappedAmaList.ExceptBy(amaEntities.Select(x => x.AMACode), mbs => mbs.AMACode);
-
+            var amaToUpdate = amaEntities.IntersectBy(mappedAmaList.Select(x => x.AMACode), mbs => mbs.AMACode);
             var amaToDelete = amaEntities.ExceptBy(mappedAmaList.Select(x => x.AMACode), mbs => mbs.AMACode);
-
-            foreach (var amaEntity in amaToUpdate)
-            {
-                _testSelectionRepositoryManager.DbContext?.Entry(amaEntity).CurrentValues.SetValues(mappedAmaList.First(x => x.AMACode == amaEntity.AMACode));
-            }
 
             foreach (var amaEntity in amaToCreate)
             {
                 await _testSelectionRepositoryManager.ScAmaRepository.Create(amaEntity);
+            }
+
+            foreach (var amaEntity in amaToUpdate)
+            {
+                _testSelectionRepositoryManager.DbContext?.Entry(amaEntity).CurrentValues.SetValues(mappedAmaList.First(x => x.AMACode == amaEntity.AMACode));
             }
 
             foreach (var amaEntity in amaToDelete)
@@ -118,20 +123,18 @@ namespace BusinessServiceTemplate.Core.Handlers
 
             var mbsEntities = mbsQuery.ToList();
 
-            var mbsToUpdate = mbsEntities.IntersectBy(mappedMbsList.Select(x => x.ItemNum), mbs => mbs.ItemNum);
-
             var mbsToCreate = mappedMbsList.ExceptBy(mbsEntities.Select(x => x.ItemNum), mbs => mbs.ItemNum);
-
+            var mbsToUpdate = mbsEntities.IntersectBy(mappedMbsList.Select(x => x.ItemNum), mbs => mbs.ItemNum);
             var mbsToDelete = mbsEntities.ExceptBy(mappedMbsList.Select(x => x.ItemNum), mbs => mbs.ItemNum);
-
-            foreach (var mbsEntity in mbsToUpdate) 
-            {
-                _testSelectionRepositoryManager.DbContext?.Entry(mbsEntity).CurrentValues.SetValues(mappedMbsList.First(x => x.ItemNum == mbsEntity.ItemNum));
-            }
 
             foreach (var mbsEntity in mbsToCreate)
             {
                 await _testSelectionRepositoryManager.ScMbsRepository.Create(mbsEntity);
+            }
+
+            foreach (var mbsEntity in mbsToUpdate) 
+            {
+                _testSelectionRepositoryManager.DbContext?.Entry(mbsEntity).CurrentValues.SetValues(mappedMbsList.First(x => x.ItemNum == mbsEntity.ItemNum));
             }
 
             foreach (var mbsEntity in mbsToDelete)
@@ -144,10 +147,6 @@ namespace BusinessServiceTemplate.Core.Handlers
             return validationErrors;
         }
 
-        //private (List<T> Create, List<T> Update, List<T> Delete) ValidateEntitiesWithImport<T>(List<T> import, List<T> entities) 
-        //{
-        //    import.Intersect(entities);
-        //}
         private string ValidateStringFromCell(IRow row, List<string> properties, string fieldName, List<ImportErrorResponseDto> validationErrors)
         {
             DataFormatter formatter = new();
@@ -175,6 +174,19 @@ namespace BusinessServiceTemplate.Core.Handlers
                 });
             }
             return value;
+        }
+
+        private async Task ValidateMedicareItem(IRow row, AmaDto ama, List<ImportErrorResponseDto> validationErrors)
+        {
+            if (!await _testSelectionRepositoryManager.ScMbsRepository.Any(x => x.ItemNum == ama.MedicareItem.Value)) 
+            {
+                validationErrors.Add(new ImportErrorResponseDto()
+                {
+                    RowNumber = row.RowNum,
+                    Field = "MedicareItem",
+                    Error = "MedicareItem Number cannot be found in MBS"
+                });
+            }
         }
 
         private decimal ValidateDecimalFromCell(IRow row, List<string> properties, string fieldName, List<ImportErrorResponseDto> validationErrors)
