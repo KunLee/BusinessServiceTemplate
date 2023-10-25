@@ -7,19 +7,7 @@ using BusinessServiceTemplate.DataAccess.Entities;
 using BusinessServiceTemplate.Shared.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
-using NPOI.Util.Collections;
-using NPOI.XWPF.UserModel;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {
@@ -38,27 +26,73 @@ namespace BusinessServiceTemplate.Core.Handlers
         }
         public async Task<List<ImportErrorResponseDto>> Handle(ImportExcelRequest request, CancellationToken cancellationToken)
         {
-
             switch (request.Type)
             {
                 case ImportExportDataType.MBS:
                     {
-                        var errorList = await MbsValidateAndProcessing(request.ExcelFile);
-                        return errorList;
+                        return await MbsValidateAndProcessing(request.ExcelFile);
                     }
                 case ImportExportDataType.AMA:
                     {
-                        //await AmaValidateAndProcessing(request.ExcelFile);
-                        break;
+                        return await AmaValidateAndProcessing(request.ExcelFile);
                     }
             }
 
             return null;
         }
+        private async Task<List<ImportErrorResponseDto>> AmaValidateAndProcessing(IFormFile file) 
+        {
+            var validationErrors = new List<ImportErrorResponseDto>();
+
+            var amaList = await _importExportService.ImportExcelFile(file, (excelRow, headers) =>
+            {
+                var ama = new AmaDto
+                {
+                    AMACode = ValidateStringFromCell(excelRow, headers, "AMACode", validationErrors),
+                    Description = ValidateStringFromCell(excelRow, headers, "Description", validationErrors),
+                    AMAFee = ValidateDecimalFromCell(excelRow, headers, "AMA Fee", validationErrors),
+                    MedicareItem = ValidateIntegerFromCell(excelRow, headers, "Medicare Item", validationErrors),
+                    ScheduleFee = ValidateDecimalFromCell(excelRow, headers, "Schedule Fee", validationErrors)
+                };
+                return ama;
+            });
+
+            if (validationErrors.Count > 0) return validationErrors;
+
+            var mappedAmaList = amaList.Select(_mapper.Map<SC_AMA>);
+
+            var amaQuery = await _testSelectionRepositoryManager.ScAmaRepository.FindAll();
+
+            var amaEntities = amaQuery.ToList();
+
+            var amaToUpdate = amaEntities.IntersectBy(mappedAmaList.Select(x => x.AMACode), mbs => mbs.AMACode);
+
+            var amaToCreate = mappedAmaList.ExceptBy(amaEntities.Select(x => x.AMACode), mbs => mbs.AMACode);
+
+            var amaToDelete = amaEntities.ExceptBy(mappedAmaList.Select(x => x.AMACode), mbs => mbs.AMACode);
+
+            foreach (var amaEntity in amaToUpdate)
+            {
+                _testSelectionRepositoryManager.DbContext?.Entry(amaEntity).CurrentValues.SetValues(mappedAmaList.First(x => x.AMACode == amaEntity.AMACode));
+            }
+
+            foreach (var amaEntity in amaToCreate)
+            {
+                await _testSelectionRepositoryManager.ScAmaRepository.Create(amaEntity);
+            }
+
+            foreach (var amaEntity in amaToDelete)
+            {
+                await _testSelectionRepositoryManager.ScAmaRepository.Delete(amaEntity);
+            }
+
+            await _testSelectionRepositoryManager.Save();
+
+            return validationErrors;
+        }
 
         private async Task<List<ImportErrorResponseDto>> MbsValidateAndProcessing(IFormFile file)
         {
-            //ItemNum, Category, Group, ItemType, FeeType, ScheduleFee, Description
             var validationErrors = new List<ImportErrorResponseDto>();
 
             var mbsList = await _importExportService.ImportExcelFile(file, (excelRow, headers) =>
@@ -76,6 +110,8 @@ namespace BusinessServiceTemplate.Core.Handlers
                 return mbs;
             });
 
+            if (validationErrors.Count > 0) return validationErrors;
+
             var mappedMbsList = mbsList.Select(_mapper.Map<SC_MBS>);
 
             var mbsQuery = await _testSelectionRepositoryManager.ScMbsRepository.FindAll();
@@ -87,8 +123,6 @@ namespace BusinessServiceTemplate.Core.Handlers
             var mbsToCreate = mappedMbsList.ExceptBy(mbsEntities.Select(x => x.ItemNum), mbs => mbs.ItemNum);
 
             var mbsToDelete = mbsEntities.ExceptBy(mappedMbsList.Select(x => x.ItemNum), mbs => mbs.ItemNum);
-
-            //_testSelectionRepositoryManager.DbContext?.Entry(newQuote).CurrentValues.SetValues(quoteToCopy);
 
             foreach (var mbsEntity in mbsToUpdate) 
             {

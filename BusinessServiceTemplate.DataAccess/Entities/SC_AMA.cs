@@ -12,12 +12,12 @@ namespace BusinessServiceTemplate.DataAccess.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AMACode { get; set; }
-        public string Description { get; set; }
-        public decimal AMAFee { get; set; }
+        public required string AMACode { get; set; }
+        public string? Description { get; set; }
+        public decimal? AMAFee { get; set; }
         public int? MedicareItem { get; set; }
         public decimal? ScheduleFee { get; set; }
 
-        public SC_MBS MedibankSchedule { get; set; }
+        public SC_MBS? MedibankSchedule { get; set; }
     }
 }
