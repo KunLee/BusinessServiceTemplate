@@ -7,10 +7,7 @@ using BusinessServiceTemplate.DataAccess.Entities;
 using BusinessServiceTemplate.Shared.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
-using System.Runtime.Intrinsics.X86;
-using System.Xml;
 
 namespace BusinessServiceTemplate.Core.Handlers
 {

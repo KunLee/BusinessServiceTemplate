@@ -478,7 +478,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
                 return BadRequest("Please upload a valid Excel file.");
 
             if (type == 0)
-                return BadRequest("Please supply a type.");
+                return BadRequest("Please supply import type.");
 
             var errors = await _mediator.Send(new ImportExcelRequest(type, excelFile));
 
@@ -498,14 +498,14 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         public async Task<IActionResult> ExportConsumables(ImportExportDataType type)
         {
             if (type == 0)
-                return BadRequest("Please supply team id.");
+                return BadRequest("Please supply export type.");
 
             var fileMemoryStream = await _mediator.Send(new ExportExcelDataRequest(type));
 
             if (fileMemoryStream == null)
                 return BadRequest();
 
-            return File(fileMemoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export.xlsx");
+            return File(fileMemoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export-" + type.ToString() + ".xlsx");
         }
     }
 }

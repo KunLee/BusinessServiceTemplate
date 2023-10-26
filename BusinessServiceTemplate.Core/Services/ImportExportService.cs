@@ -37,10 +37,9 @@ namespace BusinessServiceTemplate.Core.Services
                 }
             }
 
-            for (int i = 0; i < properties.Length; i++) 
+            for (int i = 0; i < properties.Length; i++)
             {
                 sheet.AutoSizeColumn(i);
-                //sheet.SetColumnWidth(i, (sheet.GetColumnWidth(i) + 2 * 256));
             }
 
             var memoryStream = new MemoryStream();
@@ -65,11 +64,9 @@ namespace BusinessServiceTemplate.Core.Services
             headerFont.IsBold = true;
             headerStyle.SetFont(headerFont);
             headerStyle.Alignment = HorizontalAlignment.Center;
-
             headerStyle.FillBackgroundColor = HSSFColor.Blue.Index;
             headerStyle.FillPattern = FillPattern.SolidForeground;
             headerStyle.Indention = 1;
-
             headerStyle.BorderTop = BorderStyle.Thin;
             headerStyle.BorderRight = BorderStyle.Thin;
             headerStyle.BorderBottom = BorderStyle.Thin;
