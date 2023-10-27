@@ -7,6 +7,7 @@ using BusinessServiceTemplate.DataAccess.Entities;
 using BusinessServiceTemplate.Shared.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using NPOI.SS.UserModel;
 
 namespace BusinessServiceTemplate.Core.Handlers
@@ -43,6 +44,7 @@ namespace BusinessServiceTemplate.Core.Handlers
 
         private async Task<List<ImportErrorResponseDto>> AmaValidateAndProcessing(IFormFile file) 
         {
+            var medicareItemList = new List<(int? medicareItem, int rowNum)>();
             var validationErrors = new List<ImportErrorResponseDto>();
 
             var amaList = await _importExportService.ImportExcelFile(file, async (excelRow, headers) =>
@@ -56,10 +58,12 @@ namespace BusinessServiceTemplate.Core.Handlers
                     ScheduleFee = ValidateDecimalFromCell(excelRow, headers, "Schedule Fee", validationErrors)
                 };
 
-                await ValidateMedicareItem(excelRow, ama, validationErrors);
+                //await ValidateMedicareItem(excelRow, ama, validationErrors);
 
                 return ama;
             });
+
+            await ValidateMedicareItem(medicareItemList, validationErrors);
 
             if (validationErrors.Count > 0) return validationErrors;
 
@@ -142,6 +146,25 @@ namespace BusinessServiceTemplate.Core.Handlers
             await _testSelectionRepositoryManager.Save();
 
             return validationErrors;
+        }
+
+        private async Task ValidateMedicareItem(List<(int? medicareItem, int rowNum)> medicareItemList, List<ImportErrorResponseDto> validationErrors)
+        {
+            var foundMedicareItems = await _testSelectionRepositoryManager.ScMbsRepository
+                .FindByCondition(x => medicareItemList.Select(y => y.medicareItem).Contains(x.ItemNum));
+            var foundMedicareNums = await foundMedicareItems.Select(x => x.ItemNum).ToListAsync();
+
+            var missingMedicareItems = medicareItemList.ExceptBy(foundMedicareNums, m => m.medicareItem.Value);
+
+            foreach (var item in missingMedicareItems)
+            {
+                validationErrors.Add(new ImportErrorResponseDto()
+                {
+                    RowNumber = item.rowNum,
+                    Field = "MedicareItem",
+                    Error = "MedicareItem Number cannot be found in MBS"
+                });
+            }
         }
 
         private string ValidateStringFromCell(IRow row, List<string> properties, string fieldName, List<ImportErrorResponseDto> validationErrors)
