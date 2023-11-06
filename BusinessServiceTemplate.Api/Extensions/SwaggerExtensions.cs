@@ -1,4 +1,5 @@
 ﻿using BusinessServiceTemplate.Api.Security;
+using BusinessServiceTemplate.Core.Attributes;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -53,6 +54,28 @@ namespace BusinessServiceTemplate.Api.Extensions
                         new string[]{ }
                         //new[] { "openid", "PanelAccess" }
                     }
+                });
+
+                options.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    var actionMethodInfo = apiDesc.ActionDescriptor.GetType().GetProperty("MethodInfo").GetValue(apiDesc.ActionDescriptor) as MethodInfo;
+
+                    if (actionMethodInfo != null)
+                    {
+                        var hideAttribute = actionMethodInfo.GetCustomAttribute<SwaggerHideInEnvironmentAttribute>();
+
+                        if (hideAttribute != null)
+                        {
+                            var currentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                            if (hideAttribute.Environments.Contains(currentEnvironment, StringComparer.OrdinalIgnoreCase))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
                 });
 
                 //  XML Documentation

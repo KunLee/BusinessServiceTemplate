@@ -9,6 +9,7 @@ using BusinessServiceTemplate.Api.Security;
 using BusinessServiceTemplate.Core.Dtos;
 using Microsoft.AspNetCore.OData.Query;
 using BusinessServiceTemplate.Shared.Common;
+using BusinessServiceTemplate.Core.Attributes;
 
 namespace BusinessServiceTemplate.Api.Controllers.TestSelection
 {
@@ -67,6 +68,7 @@ namespace BusinessServiceTemplate.Api.Controllers.TestSelection
         [HttpPost("panels")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [SwaggerHideInEnvironment("Development", "Production")]
         //[Authorize(nameof(SecurityOperation.FullAccess))]
         public async Task<ActionResult<PanelResponseModel>> AddPanel([FromBody] CreatePanelRequestModel requestModel)
         {
