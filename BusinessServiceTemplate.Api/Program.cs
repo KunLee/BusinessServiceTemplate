@@ -65,6 +65,7 @@ builder.Services.ConfigureSwaggerUi(config);
 builder.Services.ConfigureApplicationServices();
 // Setup Remote Logging Service
 //builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
+builder.Services.AddApiLocationService(config["LocationService:BaseAddress"]);
 
 var app = builder.Build();
 
