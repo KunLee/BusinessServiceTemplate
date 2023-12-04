@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Shared", "BusinessServiceTemplate.Shared\BusinessServiceTemplate.Shared.csproj", "{F157067C-7F5F-4758-A832-CCA67909F3FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServiceTemplate.Test", "BusinessServiceTemplate.Test\BusinessServiceTemplate.Test.csproj", "{B07A975F-AF84-493D-9273-C1CE7D9A1DDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessServiceTemplate.Test", "BusinessServiceTemplate.Test\BusinessServiceTemplate.Test.csproj", "{B07A975F-AF84-493D-9273-C1CE7D9A1DDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServiceTemplate.Auth", "BusinessServiceTemplate.Auth\BusinessServiceTemplate.Auth.csproj", "{03D99C80-5432-487E-86FB-6EEF6FF05DCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{B07A975F-AF84-493D-9273-C1CE7D9A1DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07A975F-AF84-493D-9273-C1CE7D9A1DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B07A975F-AF84-493D-9273-C1CE7D9A1DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D99C80-5432-487E-86FB-6EEF6FF05DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D99C80-5432-487E-86FB-6EEF6FF05DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D99C80-5432-487E-86FB-6EEF6FF05DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D99C80-5432-487E-86FB-6EEF6FF05DCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
