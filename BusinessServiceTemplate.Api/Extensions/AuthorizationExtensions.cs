@@ -1,8 +1,11 @@
 ﻿using BusinessServiceTemplate.Api.Security;
+using BusinessServiceTemplate.Shared.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BusinessServiceTemplate.Api.Extensions
 {

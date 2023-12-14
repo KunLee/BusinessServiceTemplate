@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace BusinessServiceTemplate.Auth.Extensions
@@ -50,6 +52,7 @@ namespace BusinessServiceTemplate.Auth.Extensions
         {
             //var domain = $"https://{configuration["Authorization:Domain"]}/";
 
+            // Normal approach for JWT token validation
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -89,6 +92,9 @@ namespace BusinessServiceTemplate.Auth.Extensions
             //});
 
             //services.AddSingleton<IAuthorizationHandler, SecurityScopeHandler>();
+
+
+
             return services;
         }
     }
