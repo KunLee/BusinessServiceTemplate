@@ -62,7 +62,9 @@ builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureMediatR();
 builder.Services.ConfigureAuthoization(config);
 builder.Services.ConfigureSwaggerUi(config);
+builder.Services.AddMemoryCache();
 builder.Services.ConfigureApplicationServices();
+
 // Setup Remote Logging Service
 //builder.Services.AddApiLoggingService(config["LoggingService:BaseAddress"]);
 builder.Services.AddApiLocationService(config["LocationService:BaseAddress"]);
